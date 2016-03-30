@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da9b358b_40178c51",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1007608
+      },
+      "writtenOn": "2016-03-30T20:37:32Z",
+      "side": 1,
+      "message": "define",
+      "range": {
+        "startLine": 85,
+        "startChar": 19,
+        "endLine": 85,
+        "endChar": 22
+      },
+      "revId": "4e310bb36756f1e07e28f059a32302484846d1a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_200da83e",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1007608
+      },
+      "writtenOn": "2016-03-30T20:37:32Z",
+      "side": 1,
+      "message": "define",
+      "range": {
+        "startLine": 87,
+        "startChar": 25,
+        "endLine": 87,
+        "endChar": 27
+      },
+      "revId": "4e310bb36756f1e07e28f059a32302484846d1a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_000aa426",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1007608
+      },
+      "writtenOn": "2016-03-30T20:37:32Z",
+      "side": 1,
+      "message": "define",
+      "range": {
+        "startLine": 137,
+        "startChar": 29,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "4e310bb36756f1e07e28f059a32302484846d1a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_e006a01f",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1007608
+      },
+      "writtenOn": "2016-03-30T20:37:32Z",
+      "side": 1,
+      "message": "define",
+      "range": {
+        "startLine": 190,
+        "startChar": 25,
+        "endLine": 190,
+        "endChar": 27
+      },
+      "revId": "4e310bb36756f1e07e28f059a32302484846d1a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
