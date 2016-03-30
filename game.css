@@ -8,19 +8,19 @@
 }
 .game-vbox 
 {
-    -fx-background-color: #00FEF6;
+    -fx-background-color: #228B22;
     -fx-padding: 5.0 15.0 5.0 15.0;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
 .game-titScore 
 {
-    -fx-font-size: 13.0px;
-    -fx-text-fill: #006EFE;
+    -fx-font-size: 15.0px;
+    -fx-text-fill: #FFFF00;
 }
 .game-score 
 {
-    -fx-font-size: 25.0px;
+    -fx-font-size: 17.0px;
     -fx-text-fill: #FE0000;
 }
 .game-points 
@@ -63,7 +63,7 @@
 }
 .game-title
 { 
-	-fx-font: 55.0px Mistral;
+	-fx-font: 40.0px Impact;
 	-fx-text-fill: #FEAB04;
     -fx-effect: dropshadow( three-pass-box, #00FF00, 10.0, 0.7, 5.0, 8.0 );
     -fx-stroke: black;
@@ -71,9 +71,9 @@
 }
 .game-subtitle 
 {
-	-fx-translate-x: -180.0;
+	-fx-translate-x: -120.0;
     -fx-translate-y: 40.0;
-    -fx-font: 45.0px Mistral;
+    -fx-font: 30.0px Impact;
     -fx-text-fill: #0000FF;
     -fx-effect: dropshadow( three-pass-box, #FF0000, 10.0, 0.7, 5.0, 8.0 );
 }
@@ -87,8 +87,7 @@
     -fx-background-radius: 6.0;
     -fx-border-radius: 6.0;
 }
-
-.game-overlay-pause, .game-overlay-quit 
+ .game-overlay-quit 
 {
     -fx-opacity: 0.9;
     -fx-background-color: #f9f6f2;
@@ -111,6 +110,24 @@
 {
     -fx-opacity: 0.6;
     -fx-background-color: #f9f6f2;
+}
+.game-overlay-start
+{
+    -fx-background-color: #00FF00;
+}
+.game-overlay-pause
+{
+    -fx-background-color: #00FF00;
+}
+.game-lblStart
+{
+    -fx-font-size: 60.0px;
+    -fx-text-fill: #FF00FF ;
+}
+.game-lblpause
+{
+    -fx-font-size: 60.0px;
+    -fx-text-fill: #FF00FF ;
 }
 .game-button 
 { 

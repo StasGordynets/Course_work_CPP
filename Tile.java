@@ -5,11 +5,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 
 public class Tile extends Label {
-
   private int value;
   private Location location;
   private boolean merged;
 
+  /**
+   * Create random value, 90% chance 2, 10% 4
+   */
   public static Tile newRandomTile() {
     return newTile(new Random().nextDouble() < 0.9 ? 2 : 4);
   }
@@ -18,7 +20,11 @@ public class Tile extends Label {
     return new Tile(value);
   }
 
+  /**
+   * Create tile
+   */
   private Tile(int value) {
+    // Board.CELL_SIZE - 13 -> that the tile was a bit less than the field
     final int squareSize = Board.CELL_SIZE - 13;
     setMinSize(squareSize, squareSize);
     setMaxSize(squareSize, squareSize);
@@ -60,14 +66,21 @@ public class Tile extends Label {
     return "Tile{" + "value=" + value + ", location=" + location + ", merged=" + merged + '}';
   }
 
-  public void merge(Tile another) {
+  /**
+   * Add to tile's value the value of the tile to be merged to, set the text with the new value and
+   * replace the old style ‘game-title-“-value with the new one
+   */
+  public void merge(Tile anotherTile) {
     getStyleClass().remove("game-tile-" + value);
-    this.value += another.getValue();
+    this.value += anotherTile.getValue();
     setText(Integer.toString(value));
     merged = true;
     getStyleClass().add("game-tile-" + value);
   }
 
+  /**
+   * Check it this.tile can be merged with anotherTile
+   */
   public boolean isMergeable(Tile anotherTile) {
     return anotherTile != null && getValue() == anotherTile.getValue();
   }
