@@ -91,46 +91,42 @@ public class GameManager extends Group {
       if (Game2048.STEP >= 33) {
         board.setPoints(0);
       }
-      
-        tilesWereMoved = GridOperator.traverseGrid((i, j) -> {
-          AtomicInteger result = new AtomicInteger();
-          optionalTile(new Location(i, j)).ifPresent(t1 -> {
-            final Location newLoc = findFarthestLocation(t1.getLocation(), direction);
-            Location nextLocation = newLoc.offset(direction); // calculates to a possible merge
-            optionalTile(nextLocation).filter(t2 -> t1.isMergeable(t2) && !t2.isMerged())
-                .ifPresent(t2 -> {
-                  t2.merge(t1);
-                  t2.toFront();
-                  gameGrid.put(nextLocation, t2);
-                  gameGrid.replace(t1.getLocation(), null);
-                  board.addPoints(t2.getValue());
-                  if (t2.getValue() == 2048) {
-                    board.setGameWin(true);
-                  }
-                  parallelTransition.getChildren().add(animateExistingTile(t1, nextLocation));
-                  parallelTransition.getChildren().add(animateMergedTile(t2));
-                  mergedToBeRemoved.add(t1);
+      tilesWereMoved = GridOperator.traverseGrid((i, j) -> {
+        AtomicInteger result = new AtomicInteger();
+        optionalTile(new Location(i, j)).ifPresent(t1 -> {
+          final Location newLoc = findFarthestLocation(t1.getLocation(), direction);
+          Location nextLocation = newLoc.offset(direction); // calculates to a possible merge
+          optionalTile(nextLocation).filter(t2 -> t1.isMergeable(t2) && !t2.isMerged())
+              .ifPresent(t2 -> {
+                t2.merge(t1);
+                t2.toFront();
+                gameGrid.put(nextLocation, t2);
+                gameGrid.replace(t1.getLocation(), null);
+                board.addPoints(t2.getValue());
+                if (t2.getValue() == 2048) {
+                  board.setGameWin(true);
+                }
+                parallelTransition.getChildren().add(animateExistingTile(t1, nextLocation));
+                parallelTransition.getChildren().add(animateMergedTile(t2));
+                mergedToBeRemoved.add(t1);
 
-                  result.set(1);
-                });
+                result.set(1);
+              });
 
-            if (result.get() == 0 && !newLoc.equals(t1.getLocation())) {
-              parallelTransition.getChildren().add(animateExistingTile(t1, newLoc));
-              gameGrid.put(newLoc, t1);
-              gameGrid.replace(t1.getLocation(), null);
-              t1.setLocation(newLoc);
-              result.set(1);
-            }
-          });
-          return result.get();
+          if (result.get() == 0 && !newLoc.equals(t1.getLocation())) {
+            parallelTransition.getChildren().add(animateExistingTile(t1, newLoc));
+            gameGrid.put(newLoc, t1);
+            gameGrid.replace(t1.getLocation(), null);
+            t1.setLocation(newLoc);
+            result.set(1);
+          }
         });
-      
+        return result.get();
+      });
     }
-
     if (Game2048.STEP >= 35) {
       board.animateScore();
     }
-
     if (Game2048.STEP >= 20) {
       parallelTransition.setOnFinished(e -> {
         synchronized (gameGrid) {
@@ -150,8 +146,7 @@ public class GameManager extends Group {
           if (randomAvailableLocation != null) {
             if (Game2048.STEP < 25) {
               addAndAnimateRandomTile(randomAvailableLocation);
-            } 
-            else if (Game2048.STEP >= 25) {
+            } else if (Game2048.STEP >= 25) {
               if (tilesWereMoved > 0) {
                 addAndAnimateRandomTile(randomAvailableLocation);
               }
@@ -159,8 +154,7 @@ public class GameManager extends Group {
           } else {
             if (Game2048.STEP < 37) {
               System.out.println("Game Over");
-            }
-            else if (Game2048.STEP >= 37) {
+            } else if (Game2048.STEP >= 37) {
               if (mergeMovementsAvailable() == 0) {
                 System.out.println("Game Over");
                 if (Game2048.STEP >= 41) {
@@ -190,6 +184,7 @@ public class GameManager extends Group {
     }
     return farthest;
   }
+
   private Timeline animateExistingTile(Tile tile, Location newLocation) {
     Timeline timeline = new Timeline();
     if (Game2048.STEP >= 19) {
@@ -288,8 +283,7 @@ public class GameManager extends Group {
                 }
               }
             }
-          }
-          else if (Game2048.STEP >= 44) {
+          } else if (Game2048.STEP >= 44) {
             optionalTile(thisloc).ifPresent(t1 -> {
               optionalTile(thisloc.offset(direction)).filter(t2 -> t1.isMergeable(t2))
                   .ifPresent(t2 -> numMergeableTile.incrementAndGet());

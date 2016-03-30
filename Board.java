@@ -270,22 +270,22 @@ public class Board extends Group {
 
     lblScore.textProperty().addListener((ov, s, s1) -> {
       lblPoints.setLayoutX(0);
-      double midScoreX = vScore.localToScene(vScore.getWidth() / 2d, 0).getX();
+      double midScoreX = vScore.localToScene(vScore.getWidth() / 2, 0).getX();
       lblPoints.setLayoutX(lblPoints.sceneToLocal(midScoreX, 0).getX() - lblPoints.getWidth() / 2d);
     });
 
-    final KeyValue kvO0 = new KeyValue(lblPoints.opacityProperty(), 1);
-    final KeyValue kvY0 = new KeyValue(lblPoints.layoutYProperty(), 20);
-    final KeyValue kvO1 = new KeyValue(lblPoints.opacityProperty(), 0);
-    final KeyValue kvY1 = new KeyValue(lblPoints.layoutYProperty(), 100);
-    final KeyFrame kfO0 = new KeyFrame(Duration.ZERO, kvO0);
-    final KeyFrame kfY0 = new KeyFrame(Duration.ZERO, kvY0);
+    final KeyValue KeyValueO0 = new KeyValue(lblPoints.opacityProperty(), 1);
+    final KeyValue KeyValueY0 = new KeyValue(lblPoints.layoutYProperty(), 20);
+    final KeyValue KeyValueO1 = new KeyValue(lblPoints.opacityProperty(), 0);
+    final KeyValue KeyValueY1 = new KeyValue(lblPoints.layoutYProperty(), 100);
+    final KeyFrame KeyFrameO0 = new KeyFrame(Duration.ZERO, KeyValueO0);
+    final KeyFrame KeyFrameY0 = new KeyFrame(Duration.ZERO, KeyValueY0);
 
-    Duration animationDuration = Duration.millis(600);
-    final KeyFrame kfO1 = new KeyFrame(animationDuration, kvO1);
-    final KeyFrame kfY1 = new KeyFrame(animationDuration, kvY1);
+    Duration animationDuration = Duration.millis(1000);
+    final KeyFrame KeyFrameO1 = new KeyFrame(animationDuration, KeyValueO1);
+    final KeyFrame KeyFrameY1 = new KeyFrame(animationDuration, KeyValueY1);
 
-    animateAddedPoints.getKeyFrames().addAll(kfO0, kfY0, kfO1, kfY1);
+    animateAddedPoints.getKeyFrames().addAll(KeyFrameO0, KeyFrameY0, KeyFrameO1, KeyFrameY1);
   }
 
   private Rectangle createCell(int i, int j) {
@@ -296,8 +296,8 @@ public class Board extends Group {
     cell.setStroke(Color.GREY);
 
     if (cell != null) {
-      cell.setArcHeight(CELL_SIZE / 6d);
-      cell.setArcWidth(CELL_SIZE / 6d);
+      cell.setArcHeight(CELL_SIZE / 6);
+      cell.setArcWidth(CELL_SIZE / 6);
       cell.getStyleClass().add("game-grid-cell");
     }
     return cell;
