@@ -28,7 +28,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
 public class Board extends Group {
 
   public static final int CELL_SIZE = 128;
@@ -50,57 +49,41 @@ public class Board extends Group {
   private final Group gridGroup = new Group();
   private final IntegerProperty gameMovePoints = new SimpleIntegerProperty(0);
   private final IntegerProperty gameScoreProperty = new SimpleIntegerProperty(0);
+  private final IntegerProperty gameScoreBestProperty = new SimpleIntegerProperty(0);
   private final Timeline animateAddedPoints = new Timeline();
 
   private final HBox overlay = new HBox();
   private final Label lOvrText = new Label();
   private final HBox buttonsOverlay = new HBox();
+  private final Button bStart = new Button("Play game");
   private final Button bTry = new Button("Try again");
-  private final Button bContinue = new Button("Keep going");
+  private final Button bContinue = new Button("Continue");
 
+  private final BooleanProperty gameStartProperty = new SimpleBooleanProperty(false);
   private final BooleanProperty gameWonProperty = new SimpleBooleanProperty(false);
   private final BooleanProperty gameOverProperty = new SimpleBooleanProperty(false);
+  private final BooleanProperty gamePauseProperty = new SimpleBooleanProperty(false);
   private final BooleanProperty resetGame = new SimpleBooleanProperty(false);
 
+  public static boolean GameOver = false;
+  public static boolean Winner = false;
+  public static boolean BotActive = false;
+  public static boolean GamePause = false;
+
+  /**
+   * Create the game board
+   */
   public Board() {
-    Buttons();
-    // times();
+    CreateButtons();
     createScore();
     createGrid();
     initGameProperties();
   }
 
-  public void times() {
-    int second = 0;
-    int minutes = 0;
-    int hours = 0;
-
-    for (int i = 1; i < 61; i++) {
-      second++;
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException ex) {
-        Thread.currentThread().interrupt();
-      }
-      if (second == 60) {
-        second = 0;
-        minutes++;
-      }
-      if (minutes == 60) {
-        minutes = 0;
-        hours++;
-      }
-      System.out.println(hours);
-      System.out.println(minutes);
-      System.out.println(second);
-    }
-
-
-
-  }
-
+  /**
+   * Create information window about the developer of the game
+   */
   public void StageInformation() {
-
     Pane scene_info = new Pane();
 
     Stage info = new Stage();
@@ -135,7 +118,10 @@ public class Board extends Group {
     info.show();
   }
 
-  public void Buttons() {
+  /**
+   * Create buttons for games
+   */
+  public void CreateButtons() {
     Image imageSave = new Image(getClass().getResourceAsStream("save.png"));
     Button Save = new Button();
     Save.getStyleClass().addAll("game-button-save");
@@ -166,7 +152,13 @@ public class Board extends Group {
     Bot.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-
+        if (BotActive == false) {
+          GameBot.AnimationTimer.start();
+          BotActive = true;
+        } else {
+          GameBot.AnimationTimer.stop();
+          BotActive = false;
+        }
       }
     });
 
@@ -178,7 +170,21 @@ public class Board extends Group {
     Pause.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-
+        if (GamePause == false) {
+          setGamePause(true);
+          GamePause = true;
+          if (BotActive == true) {
+            GameBot.AnimationTimer.stop();
+            BotActive = true;
+          }
+        } else {
+          setGamePause(false);
+          GamePause = false;
+          if (BotActive == true) {
+            GameBot.AnimationTimer.start();
+          }
+          getChildren().removeAll(overlay);
+        }
       }
     });
 
@@ -200,16 +206,17 @@ public class Board extends Group {
     Exit.setGraphic(new ImageView(imageExit));
 
     Exit.setOnAction(new EventHandler<ActionEvent>() {
-
       @Override
       public void handle(ActionEvent event) {
         Platform.exit();
       }
     });
-
     getChildren().addAll(Save, Load, Bot, Pause, Information, Exit);
   }
 
+  /**
+   * Ñreate a place for the account and the best score for the game
+   */
   private void createScore() {
     Label lblTitle = new Label("Games 2048");
     Label lblSubtitle = new Label("on JavaFx");
@@ -234,7 +241,6 @@ public class Board extends Group {
 
     hTop.getChildren().addAll(lblTitle, lblSubtitle, hFill, vScores);
 
-
     lblTitle.getStyleClass().addAll("game-label", "game-title");
     lblSubtitle.getStyleClass().addAll("game-label", "game-subtitle");
     vScore.getStyleClass().add("game-vbox");
@@ -243,7 +249,6 @@ public class Board extends Group {
     vRecord.getStyleClass().add("game-vbox");
     lblTitBest.getStyleClass().addAll("game-label", "game-titScore");
     lblBest.getStyleClass().addAll("game-label", "game-score");
-
 
     hTop.setMinSize(GRID_WIDTH, TOP_HEIGHT);
     hTop.setPrefSize(GRID_WIDTH, TOP_HEIGHT);
@@ -255,58 +260,65 @@ public class Board extends Group {
 
     vGame.getChildren().add(hMid);
 
-
     lblPoints.getStyleClass().addAll("game-label", "game-points");
     lblPoints.setAlignment(Pos.CENTER);
     lblPoints.setMinWidth(100);
     getChildren().add(lblPoints);
 
-
     lblPoints.textProperty().bind(Bindings.createStringBinding(
-        () -> (gameMovePoints.get() > 0) ? "+".concat(Integer.toString(gameMovePoints.get())) : "",
+        () -> (gameMovePoints.get() > 0) ? "+".concat(Integer.toString
+            (gameMovePoints.get())) : "",
         gameMovePoints.asObject()));
     lblScore.textProperty().bind(gameScoreProperty.asString());
 
+    lblBest.textProperty().bind(gameScoreProperty.asString());
 
     lblScore.textProperty().addListener((ov, s, s1) -> {
       lblPoints.setLayoutX(0);
-      double midScoreX = vScore.localToScene(vScore.getWidth() / 2d, 0).getX();
-      lblPoints.setLayoutX(lblPoints.sceneToLocal(midScoreX, 0).getX() - lblPoints.getWidth() / 2d);
+      double midScoreX = vScore.localToScene(vScore.getWidth() / 2, 0).getX();
+      lblPoints.setLayoutX(lblPoints.sceneToLocal(
+          midScoreX, 0).getX() - lblPoints.getWidth() / 2d);
     });
 
-    final KeyValue kvO0 = new KeyValue(lblPoints.opacityProperty(), 1);
-    final KeyValue kvY0 = new KeyValue(lblPoints.layoutYProperty(), 20);
-    final KeyValue kvO1 = new KeyValue(lblPoints.opacityProperty(), 0);
-    final KeyValue kvY1 = new KeyValue(lblPoints.layoutYProperty(), 100);
-    final KeyFrame kfO0 = new KeyFrame(Duration.ZERO, kvO0);
-    final KeyFrame kfY0 = new KeyFrame(Duration.ZERO, kvY0);
+    final KeyValue OpacityProperty0 = new KeyValue(lblPoints.opacityProperty(), 1);
+    final KeyValue LayoutYProperty0 = new KeyValue(lblPoints.layoutYProperty(), 20);
+    final KeyValue OpacityProperty1 = new KeyValue(lblPoints.opacityProperty(), 0);
+    final KeyValue LayoutYProperty1 = new KeyValue(lblPoints.layoutYProperty(), 100);
+    final KeyFrame FrameOpacity0 = new KeyFrame(Duration.ZERO, OpacityProperty0);
+    final KeyFrame FrameLayout0 = new KeyFrame(Duration.ZERO, LayoutYProperty0);
 
-    Duration animationDuration = Duration.millis(600);
-    final KeyFrame kfO1 = new KeyFrame(animationDuration, kvO1);
-    final KeyFrame kfY1 = new KeyFrame(animationDuration, kvY1);
+    Duration animationDuration = Duration.millis(1000);
+    final KeyFrame FrameOpacity1 = new KeyFrame(animationDuration, OpacityProperty1);
+    final KeyFrame FrameLayout1 = new KeyFrame(animationDuration, LayoutYProperty1);
 
-    animateAddedPoints.getKeyFrames().addAll(kfO0, kfY0, kfO1, kfY1);
+    animateAddedPoints.getKeyFrames().addAll(FrameOpacity0, FrameLayout0, FrameOpacity1,
+        FrameLayout1);
   }
 
-  private Rectangle createCell(int i, int j) {
+  /**
+   * Draw the cell
+   */
+  private Rectangle createCell(int PositionX, int PositionY) {
     Rectangle cell = null;
 
-    cell = new Rectangle(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    cell = new Rectangle(PositionX * CELL_SIZE, PositionY * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     cell.setFill(Color.WHITE);
     cell.setStroke(Color.GREY);
 
     if (cell != null) {
-      cell.setArcHeight(CELL_SIZE / 6d);
-      cell.setArcWidth(CELL_SIZE / 6d);
+      cell.setArcHeight(CELL_SIZE / 6);
+      cell.setArcWidth(CELL_SIZE / 6);
       cell.getStyleClass().add("game-grid-cell");
     }
     return cell;
   }
 
+  /**
+   * Draw the box the size of 4 by 4
+   */
   private void createGrid() {
-
-    GridOperator.traverseGrid((i, j) -> {
-      gridGroup.getChildren().add(createCell(i, j));
+    GridOperator.traverseGrid((xPosition, yPosition) -> {
+      gridGroup.getChildren().add(createCell(xPosition, yPosition));
       return 0;
     });
 
@@ -330,11 +342,17 @@ public class Board extends Group {
     getChildren().add(0, vGame);
   }
 
+  /**
+   * Add tile to the grid
+   */
   public void addTile(Tile tile) {
     moveTile(tile, tile.getLocation());
     gridGroup.getChildren().add(tile);
   }
 
+  /**
+   * Move the tile on the field
+   */
   public void moveTile(Tile tile, Location location) {
     double layoutX = location.getLayoutX(CELL_SIZE) - (tile.getMinWidth() / 2);
     double layoutY = location.getLayoutY(CELL_SIZE) - (tile.getMinHeight() / 2);
@@ -342,27 +360,59 @@ public class Board extends Group {
     tile.setLayoutY(layoutY);
   }
 
+  /**
+   * We get information about the GridGroup
+   */
   public Group getGridGroup() {
     return gridGroup;
   }
 
+  /**
+   * Set points in MovePoints
+   */
   public void setPoints(int points) {
     gameMovePoints.set(points);
   }
 
+  /**
+   * Get points in MovePoints
+   */
   public int getPoints() {
     return gameMovePoints.get();
   }
 
+  /**
+   * Get points in score
+   */
+  public int getBestPoints() {
+    return gameScoreProperty.get();
+  }
+
+  /**
+   * Set points in score
+   */
   public void addPoints(int points) {
     gameMovePoints.set(gameMovePoints.get() + points);
     gameScoreProperty.set(gameScoreProperty.get() + points);
   }
 
+  /**
+   * Set points in best score
+   */
+  public void BestPoints(int points) {
+    gameScoreBestProperty.set(gameScoreProperty.get() + points);
+  }
+
+  /**
+   * Animated score
+   */
   public void animateScore() {
     animateAddedPoints.playFromStart();
   }
 
+  /**
+   * Initialize the settings of various actions
+   */
   private void initGameProperties() {
     overlay.setMinSize(GRID_WIDTH, GRID_WIDTH);
     overlay.setAlignment(Pos.CENTER);
@@ -375,18 +425,47 @@ public class Board extends Group {
     buttonsOverlay.setMinSize(GRID_WIDTH, GRID_WIDTH / 2);
     buttonsOverlay.setSpacing(10);
 
+    bStart.getStyleClass().add("game-button");
+    bStart.setOnAction(e -> {
+      getChildren().removeAll(overlay, buttonsOverlay);
+      gridGroup.getChildren().removeIf(c -> c instanceof Tile);
+      resetGame.set(false);
+      gameScoreProperty.set(0);
+      gameStartProperty.set(true);
+      gameWonProperty.set(false);
+      gameOverProperty.set(false);
+      resetGame.set(true);
+    });
+
     bTry.getStyleClass().add("game-button");
     bTry.setOnAction(e -> {
       getChildren().removeAll(overlay, buttonsOverlay);
       gridGroup.getChildren().removeIf(c -> c instanceof Tile);
       resetGame.set(false);
       gameScoreProperty.set(0);
+      gameStartProperty.set(true);
       gameWonProperty.set(false);
       gameOverProperty.set(false);
       resetGame.set(true);
     });
+
     bContinue.getStyleClass().add("game-button");
     bContinue.setOnAction(e -> getChildren().removeAll(overlay, buttonsOverlay));
+
+    gameStartProperty.addListener((observable, oldValue, newValue) -> {
+      overlay.getStyleClass().setAll("game-overlay", "game-overlay-start");
+      lOvrText.setText("A YOU READY?");
+      lOvrText.getStyleClass().setAll("game-label", "game-lblStart");
+      buttonsOverlay.getChildren().setAll(bStart);
+      this.getChildren().addAll(overlay, buttonsOverlay);
+    });
+
+    gamePauseProperty.addListener((observable, oldValue, newValue) -> {
+      overlay.getStyleClass().setAll("game-overlay", "game-overlay-pause");
+      lOvrText.setText("Pause of Games!");
+      lOvrText.getStyleClass().setAll("game-label", "game-lblpause");
+      this.getChildren().addAll(overlay);
+    });
 
     gameOverProperty.addListener((observable, oldValue, newValue) -> {
       if (newValue) {
@@ -407,6 +486,17 @@ public class Board extends Group {
         this.getChildren().addAll(overlay, buttonsOverlay);
       }
     });
+  }
+
+  /**
+   * Set's flags of different actions
+   */
+  public void setGameStart(boolean start) {
+    gameStartProperty.set(start);
+  }
+
+  public void setGamePause(boolean pause) {
+    gamePauseProperty.set(pause);
   }
 
   public void setGameOver(boolean gameOver) {

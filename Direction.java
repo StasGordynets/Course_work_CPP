@@ -27,8 +27,32 @@ public enum Direction {
     return "Direction{" + "y=" + y + ", x=" + x + "} " + name();
   }
 
+  /**
+   * We get action on the code button
+   */
   public static Direction valueFor(KeyCode keyCode) {
     return valueOf(keyCode.name());
   }
 
+  /**
+   * Install Code imaginary keystrokes for the bot and get action on these buttons for bot
+   */
+  public static Direction valueForBOT(int direct) {
+    KeyCode keyCode = null;
+    switch (direct) {
+      case 0: {
+        keyCode = KeyCode.LEFT;
+        break;
+      }
+      case 1: {
+        keyCode = KeyCode.UP;
+        break;
+      }
+      case 2: {
+        keyCode = KeyCode.RIGHT;
+        break;
+      }
+    }
+    return valueOf(keyCode.name());
+  }
 }
