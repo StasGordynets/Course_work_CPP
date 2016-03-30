@@ -1,39 +1,39 @@
-.game-root 
+.game-root
 {
-    -fx-background-repeat: stretch;   
+    -fx-background-repeat: stretch;
  	-fx-background-position: center center;
  	-fx-background-color: radial-gradient(center 50.0% 50.0%, radius 60.0%, reflect, #ADFF2F, black );
- 	-fx-effect: dropshadow(three-pass-box, #FF0000, 30.0, 0.5, 0.0, 0.0); 
-    -fx-background-insets: 15.0; 
+ 	-fx-effect: dropshadow(three-pass-box, #FF0000, 30.0, 0.5, 0.0, 0.0);
+    -fx-background-insets: 15.0;
 }
-.game-vbox 
+.game-vbox
 {
-    -fx-background-color: #00FEF6;
+    -fx-background-color: #228B22;
     -fx-padding: 5.0 15.0 5.0 15.0;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-titScore 
+.game-titScore
 {
-    -fx-font-size: 13.0px;
-    -fx-text-fill: #006EFE;
+    -fx-font-size: 15.0px;
+    -fx-text-fill: #FFFF00;
 }
-.game-score 
+.game-score
 {
-    -fx-font-size: 25.0px;
+    -fx-font-size: 17.0px;
     -fx-text-fill: #FE0000;
 }
-.game-points 
+.game-points
 {
     -fx-font-size: 15.0px;
     -fx-text-fill: #00ff00;
 }
-.game-time 
+.game-time
 {
     -fx-font-size: 14.0px;
     -fx-text-fill: #bbada0;
 }
-.game-backGrid 
+.game-backGrid
 {
     -fx-background-color: #003300;
     -fx-border-color: #003300; 
@@ -41,13 +41,13 @@
     -fx-background-radius: 6.0;
     -fx-border-radius: 6.0;
 }
-.game-grid 
+.game-grid
 {
     -fx-background-color: #00ffff; 
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-grid-cell 
+.game-grid-cell
 {
     -fx-fill: #00b300;
     -fx-stroke-width: 14.0px;
@@ -55,7 +55,7 @@
     -fx-stroke: #FF0000;
 }
 
-.game-label 
+.game-label
 {
     -fx-font-smoothing-type: lcd;
     -fx-smooth: true;
@@ -63,71 +63,88 @@
 }
 .game-title
 { 
-	-fx-font: 55.0px Mistral;
+	-fx-font: 40.0px Impact;
 	-fx-text-fill: #FEAB04;
     -fx-effect: dropshadow( three-pass-box, #00FF00, 10.0, 0.7, 5.0, 8.0 );
     -fx-stroke: black;
     -fx-stroke-width: 1.0;
 }
-.game-subtitle 
+.game-subtitle
 {
-	-fx-translate-x: -180.0;
+	-fx-translate-x: -120.0;
     -fx-translate-y: 40.0;
-    -fx-font: 45.0px Mistral;
+    -fx-font: 30.0px Impact;
     -fx-text-fill: #0000FF;
     -fx-effect: dropshadow( three-pass-box, #FF0000, 10.0, 0.7, 5.0, 8.0 );
 }
 
-.game-overlay 
+.game-overlay
 {
     -fx-font-size: 60.0px;
     -fx-text-fill: #f9f6f2;
-    -fx-border-color: #f9f6f2; 
-    -fx-border-width: 2.0; 
+    -fx-border-color: #f9f6f2;
+    -fx-border-width: 2.0;
     -fx-background-radius: 6.0;
     -fx-border-radius: 6.0;
 }
-
-.game-overlay-pause, .game-overlay-quit 
+ .game-overlay-quit
 {
     -fx-opacity: 0.9;
     -fx-background-color: #f9f6f2;
 }
-.game-lblPause, .game-lblOver, .game-lblQuit 
+.game-lblPause, .game-lblOver, .game-lblQuit
 {
     -fx-font-size: 60.0px;
     -fx-text-fill: #776e65;
 }
-.game-overlay-won 
+.game-overlay-won
 {
     -fx-background-color: rgba(237.0, 194.0, 46.0, 0.5);
 }
-.game-lblWon 
+.game-lblWon
 {
     -fx-font-size: 60.0px;
     -fx-text-fill: #f9f6f2;
 }
-.game-overlay-over 
+.game-overlay-over
 {
     -fx-opacity: 0.6;
     -fx-background-color: #f9f6f2;
 }
-.game-button 
-{ 
+.game-overlay-start
+{
+    -fx-background-color: #00FF00;
+}
+.game-overlay-pause
+{
+    -fx-background-color: #00FF00;
+}
+.game-lblStart
+{
+    -fx-font-size: 60.0px;
+    -fx-text-fill: #FF00FF ;
+}
+.game-lblpause
+{
+    -fx-font-size: 60.0px;
+    -fx-text-fill: #FF00FF ;
+}
+.game-button
+{
     -fx-font-size: 30.0px;
     -fx-text-fill: white;
     -fx-background-color: #8f7a66;
-    -fx-border-color: #8f7a66; 
-    -fx-border-width: 2.0; 
+    -fx-border-color: #8f7a66;
+    -fx-border-width: 2.0;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
     -fx-padding: 6.0 20.0 12.0 20.0;
 }
-.game-button:pressed 
+.game-button:pressed
 {
     -fx-padding: 4.0 22.0 12.0 22.0;
 }
-.game-button:focused, .game-button:hover 
+.game-button:focused, .game-button:hover
 {
     -fx-border-color: -fx-focus-color;
     -fx-border-width: 0.5px;
@@ -162,7 +179,7 @@
 	-fx-translate-x: 479.0;
     -fx-translate-y: -90.0;
 }
-.game-about-information 
+.game-about-information
 {
 	-fx-background-image: url("information.jpg");
 	-fx-min-height: 600.0;
@@ -171,111 +188,111 @@
 	-fx-max-width: 400.0;
 }
 .game-button_close_information
-{ 
+{
     -fx-font-size: 14.0px;
     -fx-text-fill: #f9f6f2;
-    -fx-background-color: #FF0000; 
+    -fx-background-color: #FF0000;
     -fx-background-radius: 10.0;
     -fx-border-radius: 10.0;
     -fx-max-height: 20.0;
     -fx-max-width: 100.0;
     -fx-translate-x: 170.0;
-    -fx-translate-y: 550.0; 
+    -fx-translate-y: 550.0;
 
 }
-.game-button_close_information:hover 
+.game-button_close_information:hover
 {
  	-fx-background-color: linear-gradient(#FF0000, #00FF00);
 }
 .game-info_programm
-{ 
+{
     -fx-translate-x: 45.0;
-    -fx-translate-y: 50.0; 
+    -fx-translate-y: 50.0;
 	-fx-font: 30.0px Tahoma;
     -fx-fill: linear-gradient(from 0.0% 0.0% to 100.0% 200.0%, repeat, #FF00FF 0.0%, #00FF00 80.0%);
     -fx-stroke: black;
     -fx-stroke-width: 1.0;
 }
 .game-info_version
-{ 
+{
     -fx-translate-x: 90.0;
-    -fx-translate-y: 100.0; 
+    -fx-translate-y: 100.0;
 	-fx-font: 22.0px Tahoma;
     -fx-fill: linear-gradient(from 0.0% 0.0% to 100.0% 200.0%, repeat, #FFFFFF 20.0%, #32CD32 80.0%);
     -fx-stroke: black;
     -fx-stroke-width: 1.0;
 }
 .game-info_developer
-{ 
+{
     -fx-translate-x: 15.0;
-    -fx-translate-y: 150.0; 
+    -fx-translate-y: 150.0;
 	-fx-font: 38.0px Mistral;
     -fx-fill: linear-gradient(from 50.0% 0.0% to 100.0% 200.0%, repeat, #0000FF 20.0%, #32CD32 80.0%);
     -fx-stroke: black;
     -fx-stroke-width: 1.0;
 }
 
-.game-tile-2    
-{ 
+.game-tile-2
+{
     -fx-font-size: 55.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #4d88ff; 
+    -fx-background-color: #4d88ff;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-4    
-{ 
+.game-tile-4
+{
     -fx-font-size: 55.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #ff4d94; 
+    -fx-background-color: #ff4d94;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-8    
-{ 
+.game-tile-8
+{
     -fx-font-size: 55.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #f2b179; 
+    -fx-background-color: #f2b179;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-16   
-{ 
+.game-tile-16
+{
     -fx-font-size: 55.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #e600e6; 
+    -fx-background-color: #e600e6;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-32   
-{ 
+.game-tile-32
+{
     -fx-font-size: 55.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #ccff33; 
+    -fx-background-color: #ccff33;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-64   
-{ 
+.game-tile-64
+{
     -fx-font-size: 55.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #f65e3b; 
+    -fx-background-color: #f65e3b;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-128  
-{ 
+.game-tile-128
+{
     -fx-font-size: 45.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #ff8000; 
+    -fx-background-color: #ff8000;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
     -fx-effect: dropshadow( three-pass-box, rgba(243.0, 215.0, 116.0, 0.2381), 30.0, 0.5, 0.0, 0.0 );
     -fx-border-color: rgba(255.0, 255.0, 255.0, 0.14286);
     -fx-border-width: 1.0;
 }
-.game-tile-256 
-{ 
+.game-tile-256
+{
     -fx-font-size: 45.0px;
     -fx-text-fill: #000000;
     -fx-background-color: #6b00b3;
@@ -285,76 +302,76 @@
     -fx-border-color: rgba(255.0, 255.0, 255.0, 0.19048);
     -fx-border-width: 1.0;
 }
-.game-tile-512  
-{ 
+.game-tile-512
+{
     -fx-font-size: 45.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #0000e6; 
+    -fx-background-color: #0000e6;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
     -fx-effect: dropshadow( three-pass-box, rgba(243.0, 215.0, 116.0, 0.39683), 30.0, 0.5, 0.0, 0.0 );
     -fx-border-color: rgba(255.0, 255.0, 255.0, 0.2381);
     -fx-border-width: 1.0;
 }
-.game-tile-1024 
-{ 
+.game-tile-1024
+{
     -fx-font-size: 35.0px;
     -fx-text-fill: #000000;
-    -fx-background-color: #ffcc00; 
+    -fx-background-color: #ffcc00;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
     -fx-effect: dropshadow( three-pass-box, rgba(243.0, 215.0, 116.0, 0.47619), 30.0, 0.5, 0.0, 0.0 );
     -fx-border-color: rgba(255.0, 255.0, 255.0, 0.28571);
     -fx-border-width: 1.0;
 }
-.game-tile-2048 
-{ 
+.game-tile-2048
+{
     -fx-font-size: 35.0px;
     -fx-text-fill: #f9f6f2;
-    -fx-background-color: #ff0000; 
+    -fx-background-color: #ff0000;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
     -fx-effect: dropshadow( three-pass-box, rgba(243.0, 215.0, 116.0, 0.55556), 30.0, 0.5, 0.0, 0.0 );
     -fx-border-color: rgba(255.0, 255.0, 255.0, 0.33333);
     -fx-border-width: 1.0;
 }
-.game-tile-4096   
-{ 
+.game-tile-4096
+{
     -fx-font-size: 30.0px;
     -fx-text-fill: #f9f6f2;
-    -fx-background-color: #b885ac; 
+    -fx-background-color: #b885ac;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-8192   
-{ 
+.game-tile-8192
+{
     -fx-font-size: 30.0px;
     -fx-text-fill: #f9f6f2;
-    -fx-background-color: #af6da9; 
+    -fx-background-color: #af6da9;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-16384 
-{ 
+.game-tile-16384
+{
     -fx-font-size: 30.0px;
     -fx-text-fill: #f9f6f2;
-    -fx-background-color: #ab61a7; 
+    -fx-background-color: #ab61a7;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-32768 
-{ 
+.game-tile-32768
+{
     -fx-font-size: 30.0px;
     -fx-text-fill: #f9f6f2;
-    -fx-background-color: #a755a6; 
+    -fx-background-color: #a755a6;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
-.game-tile-65536, .game-tile-131072, .game-tile-262144 
-{ 
+.game-tile-65536, .game-tile-131072, .game-tile-262144
+{
     -fx-font-size: 25.0px;
     -fx-text-fill: #f9f6f2;
-    -fx-background-color: #3c3a32; 
+    -fx-background-color: #3c3a32;
     -fx-background-radius: 3.0;
     -fx-border-radius: 3.0;
 }
