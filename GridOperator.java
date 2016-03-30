@@ -16,13 +16,11 @@ public class GridOperator {
 
   public static int traverseGrid(IntBinaryOperator func) {
     AtomicInteger at = new AtomicInteger();
-
     traversalX.forEach(x -> {
       traversalY.forEach(y -> {
         at.addAndGet(func.applyAsInt(x, y));
       });
     });
-
     return at.get();
   }
 

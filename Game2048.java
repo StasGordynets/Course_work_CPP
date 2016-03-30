@@ -9,10 +9,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Game2048 extends Application {
-
-  public static final int STEP = 45;
-
-  private GameManager gameManager;
+  public static GameManager gameManager;
 
   @Override
   public void init() {
@@ -47,9 +44,7 @@ public class Game2048 extends Application {
     primaryStage.show();
   }
 
-
   public static void main(String[] args) {
     launch(args);
   }
-
 }

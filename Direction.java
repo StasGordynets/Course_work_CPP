@@ -31,4 +31,22 @@ public enum Direction {
     return valueOf(keyCode.name());
   }
 
+  public static Direction valueForBOT(int direct) {
+    KeyCode keyCode = null;
+    switch (direct) {
+      case 0: {
+        keyCode = KeyCode.LEFT;
+        break;
+      }
+      case 1: {
+        keyCode = KeyCode.UP;
+        break;
+      }
+      case 2: {
+        keyCode = KeyCode.RIGHT;
+        break;
+      }
+    }
+    return valueOf(keyCode.name());
+  }
 }

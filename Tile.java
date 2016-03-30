@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 
 public class Tile extends Label {
-
   private int value;
   private Location location;
   private boolean merged;

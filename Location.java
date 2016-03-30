@@ -1,8 +1,6 @@
 package game2048;
 
-
 public class Location {
-
   private int x;
   private int y;
 
@@ -58,7 +56,6 @@ public class Location {
   public Location offset(Direction direction) {
     return new Location(x + direction.getX(), y + direction.getY());
   }
-
 
   public double getLayoutX(int CELL_SIZE) {
     return (x * CELL_SIZE) + CELL_SIZE / 2;
