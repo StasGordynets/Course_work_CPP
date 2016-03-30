@@ -270,34 +270,34 @@ public class Board extends Group {
 
     lblScore.textProperty().addListener((ov, s, s1) -> {
       lblPoints.setLayoutX(0);
-      double midScoreX = vScore.localToScene(vScore.getWidth() / 2d, 0).getX();
+      double midScoreX = vScore.localToScene(vScore.getWidth() / 2, 0).getX();
       lblPoints.setLayoutX(lblPoints.sceneToLocal(midScoreX, 0).getX() - lblPoints.getWidth() / 2d);
     });
 
-    final KeyValue kvO0 = new KeyValue(lblPoints.opacityProperty(), 1);
-    final KeyValue kvY0 = new KeyValue(lblPoints.layoutYProperty(), 20);
-    final KeyValue kvO1 = new KeyValue(lblPoints.opacityProperty(), 0);
-    final KeyValue kvY1 = new KeyValue(lblPoints.layoutYProperty(), 100);
-    final KeyFrame kfO0 = new KeyFrame(Duration.ZERO, kvO0);
-    final KeyFrame kfY0 = new KeyFrame(Duration.ZERO, kvY0);
+    final KeyValue opacity0 = new KeyValue(lblPoints.opacityProperty(), 1);
+    final KeyValue opacityY0 = new KeyValue(lblPoints.opacityYProperty(), 20);
+    final KeyValue opacity1 = new KeyValue(lblPoints.opacityProperty(), 0);
+    final KeyValue opacityY1 = new KeyValue(lblPoints.layoutYProperty(), 100);
+    final KeyFrame FrameOpacity0 = new KeyFrame(Duration.ZERO, opacity0);
+    final KeyFrame FrameLayout0 = new KeyFrame(Duration.ZERO, KeyValueY0);
 
-    Duration animationDuration = Duration.millis(600);
-    final KeyFrame kfO1 = new KeyFrame(animationDuration, kvO1);
-    final KeyFrame kfY1 = new KeyFrame(animationDuration, kvY1);
+    Duration animationDuration = Duration.millis(1000);
+    final KeyFrame FrameOpacity1 = new KeyFrame(animationDuration, opacity1);
+    final KeyFrame FrameLayout1 = new KeyFrame(animationDuration, KeyValueY1);
 
-    animateAddedPoints.getKeyFrames().addAll(kfO0, kfY0, kfO1, kfY1);
+    animateAddedPoints.getKeyFrames().addAll(FrameOpacity0, FrameLayout0, FrameOpacity1, FrameLayout1);
   }
 
-  private Rectangle createCell(int i, int j) {
+  private Rectangle createCell(int PositionX, int PositionY) {
     Rectangle cell = null;
 
-    cell = new Rectangle(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    cell = new Rectangle(PositionX * CELL_SIZE, PositionY * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     cell.setFill(Color.WHITE);
     cell.setStroke(Color.GREY);
 
     if (cell != null) {
-      cell.setArcHeight(CELL_SIZE / 6d);
-      cell.setArcWidth(CELL_SIZE / 6d);
+      cell.setArcHeight(CELL_SIZE / 6);
+      cell.setArcWidth(CELL_SIZE / 6);
       cell.getStyleClass().add("game-grid-cell");
     }
     return cell;

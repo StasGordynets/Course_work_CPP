@@ -32,7 +32,12 @@ public class GameManager extends Group {
   private volatile boolean movingTiles = false;
   private int tilesWereMoved = 0;
   private final Set<Tile> mergedToBeRemoved = new HashSet<>();
-
+  privete final int Step25 = 25; 
+  privete final int Step30 = 30;
+  privete final int Step30 = 35;
+  privete final int Step37 = 37;
+  privete final int Step41 = 41;
+  
   public GameManager() {
     board = new Board();
     getChildren().add(board);
@@ -84,61 +89,52 @@ public class GameManager extends Group {
       }
     }
 
-    if (Game2048.STEP >= 25) {
-      if (Game2048.STEP >= 26) {
-        GridOperator.sortGrid(direction);
-      }
-      if (Game2048.STEP >= 33) {
-        board.setPoints(0);
-      }
-      
-        tilesWereMoved = GridOperator.traverseGrid((i, j) -> {
-          AtomicInteger result = new AtomicInteger();
-          optionalTile(new Location(i, j)).ifPresent(t1 -> {
-            final Location newLoc = findFarthestLocation(t1.getLocation(), direction);
-            Location nextLocation = newLoc.offset(direction); // calculates to a possible merge
-            optionalTile(nextLocation).filter(t2 -> t1.isMergeable(t2) && !t2.isMerged())
-                .ifPresent(t2 -> {
-                  t2.merge(t1);
-                  t2.toFront();
-                  gameGrid.put(nextLocation, t2);
-                  gameGrid.replace(t1.getLocation(), null);
-                  board.addPoints(t2.getValue());
-                  if (t2.getValue() == 2048) {
-                    board.setGameWin(true);
-                  }
-                  parallelTransition.getChildren().add(animateExistingTile(t1, nextLocation));
-                  parallelTransition.getChildren().add(animateMergedTile(t2));
-                  mergedToBeRemoved.add(t1);
+    if (Game2048.STEP >= Step25) {
+      GridOperator.sortGrid(direction);
+      board.setPoints(0);
+      tilesWereMoved = GridOperator.traverseGrid((i, j) -> {
+        AtomicInteger result = new AtomicInteger();
+        optionalTile(new Location(i, j)).ifPresent(t1 -> {
+          final Location newLocation = findFarthestLocation(t1.getLocation(), direction);
+          Location nextLocation = newLocation.offset(direction); // calculates to a possible merge
+          optionalTile(nextLocation).filter(t2 -> t1.isMergeable(t2) && !t2.isMerged())
+              .ifPresent(t2 -> {
+                t2.merge(t1);
+                t2.toFront();
+                gameGrid.put(nextLocation, t2);
+                gameGrid.replace(t1.getLocation(), null);
+                board.addPoints(t2.getValue());
+                if (t2.getValue() == 2048) {
+                  board.setGameWin(true);
+                }
+                parallelTransition.getChildren().add(animateExistingTile(t1, nextLocation));
+                parallelTransition.getChildren().add(animateMergedTile(t2));
+                mergedToBeRemoved.add(t1);
+                result.set(1);
+              });
 
-                  result.set(1);
-                });
-
-            if (result.get() == 0 && !newLoc.equals(t1.getLocation())) {
-              parallelTransition.getChildren().add(animateExistingTile(t1, newLoc));
-              gameGrid.put(newLoc, t1);
-              gameGrid.replace(t1.getLocation(), null);
-              t1.setLocation(newLoc);
-              result.set(1);
-            }
-          });
-          return result.get();
+          if (result.get() == 0 && !newLocation.equals(t1.getLocation())) {
+            parallelTransition.getChildren().add(animateExistingTile(t1, newLocation));
+            gameGrid.put(newLocation, t1);
+            gameGrid.replace(t1.getLocation(), null);
+            t1.setLocation(newLocation);
+            result.set(1);
+          }
         });
-      
+        return result.get();
+      });
     }
-
-    if (Game2048.STEP >= 35) {
+    if (Game2048.STEP >= Step35) {
       board.animateScore();
     }
-
-    if (Game2048.STEP >= 20) {
+    if (Game2048.STEP >= Step20) {
       parallelTransition.setOnFinished(e -> {
         synchronized (gameGrid) {
           movingTiles = false;
         }
         // TO-DO: Step 30. Remove the tiles in the set from the gridGroup and clear the set.
         // For all the tiles on the board: set to false their merged value
-        if (Game2048.STEP >= 30) {
+        if (Game2048.STEP >= Step30) {
           board.getGridGroup().getChildren().removeAll(mergedToBeRemoved);
           mergedToBeRemoved.clear();
           gameGrid.values().stream().filter(Objects::nonNull).forEach(t -> t.setMerged(false));
@@ -150,8 +146,7 @@ public class GameManager extends Group {
           if (randomAvailableLocation != null) {
             if (Game2048.STEP < 25) {
               addAndAnimateRandomTile(randomAvailableLocation);
-            } 
-            else if (Game2048.STEP >= 25) {
+            } else if (Game2048.STEP >= 25) {
               if (tilesWereMoved > 0) {
                 addAndAnimateRandomTile(randomAvailableLocation);
               }
@@ -159,8 +154,7 @@ public class GameManager extends Group {
           } else {
             if (Game2048.STEP < 37) {
               System.out.println("Game Over");
-            }
-            else if (Game2048.STEP >= 37) {
+            } else if (Game2048.STEP >= 37) {
               if (mergeMovementsAvailable() == 0) {
                 System.out.println("Game Over");
                 if (Game2048.STEP >= 41) {
@@ -190,6 +184,7 @@ public class GameManager extends Group {
     }
     return farthest;
   }
+
   private Timeline animateExistingTile(Tile tile, Location newLocation) {
     Timeline timeline = new Timeline();
     if (Game2048.STEP >= 19) {
@@ -288,8 +283,7 @@ public class GameManager extends Group {
                 }
               }
             }
-          }
-          else if (Game2048.STEP >= 44) {
+          } else if (Game2048.STEP >= 44) {
             optionalTile(thisloc).ifPresent(t1 -> {
               optionalTile(thisloc.offset(direction)).filter(t2 -> t1.isMergeable(t2))
                   .ifPresent(t2 -> numMergeableTile.incrementAndGet());
