@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_030e3334",
+        "filename": "Board.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1007688
+      },
+      "writtenOn": "2016-04-10T10:01:44Z",
+      "side": 1,
+      "message": "remove red space",
+      "revId": "d311da6e1a88de2272340a4b28c819954ae1e631",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e3134f5b",
+        "filename": "GameManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1007688
+      },
+      "writtenOn": "2016-04-10T10:01:44Z",
+      "side": 1,
+      "message": "finals should be named like CONST_VARIABLE_NAME\nhttps://en.wikipedia.org/wiki/Naming_convention_%28programming%29#Java",
+      "revId": "d311da6e1a88de2272340a4b28c819954ae1e631",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
