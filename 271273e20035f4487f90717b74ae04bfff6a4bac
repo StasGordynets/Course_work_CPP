@@ -1,0 +1,556 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_e59fd05d",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Are i and j coordinates of position, aren\u0027t they? If yes, they should be named as xPos and so on",
+      "range": {
+        "startLine": 300,
+        "startChar": 31,
+        "endLine": 300,
+        "endChar": 35
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c59ccc6b",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method.Should be getScoreProperty",
+      "range": {
+        "startLine": 350,
+        "startChar": 29,
+        "endLine": 350,
+        "endChar": 32
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_858da433",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 354,
+        "startChar": 19,
+        "endLine": 354,
+        "endChar": 22
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_6582a002",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 355,
+        "startChar": 22,
+        "endLine": 355,
+        "endChar": 25
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_45879c0f",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 359,
+        "startChar": 26,
+        "endLine": 359,
+        "endChar": 29
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_257db81c",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method (setSomething)",
+      "range": {
+        "startLine": 382,
+        "startChar": 0,
+        "endLine": 387,
+        "endChar": 26
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_057ab424",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 394,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 26
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_a58f8822",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 442,
+        "startChar": 22,
+        "endLine": 442,
+        "endChar": 25
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_85948437",
+        "filename": "Board.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "and here (setSomething)",
+      "range": {
+        "startLine": 445,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 3
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e5c47041",
+        "filename": "GameBot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "winner",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c5c16c30",
+        "filename": "GameBot.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 17
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_25a498a4",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Do not use names like tile0, tile1, myVariable2, etc",
+      "range": {
+        "startLine": 60,
+        "startChar": 9,
+        "endLine": 60,
+        "endChar": 14
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_05a19494",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 83,
+        "startChar": 48,
+        "endLine": 83,
+        "endChar": 52
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_a5b668da",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 89,
+        "startChar": 23,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e5ad9089",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 90,
+        "startChar": 23,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_459e7c57",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "winner",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 99,
+        "endChar": 27
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_05c87454",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 103,
+        "startChar": 32,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_85bb64c4",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 107,
+        "startChar": 19,
+        "endLine": 107,
+        "endChar": 22
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_65b060de",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 109,
+        "startChar": 19,
+        "endLine": 109,
+        "endChar": 22
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_45b55ccb",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 110,
+        "startChar": 19,
+        "endLine": 110,
+        "endChar": 26
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_25cb7855",
+        "filename": "GameManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "Bad name for method",
+      "range": {
+        "startLine": 112,
+        "startChar": 17,
+        "endLine": 112,
+        "endChar": 20
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_a5dd4816",
+        "filename": "Location.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "xPos, yPos or smth like this",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 16
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_85e244d4",
+        "filename": "Tile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "why 13?",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_65e740e5",
+        "filename": "Tile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-11T15:51:41Z",
+      "side": 1,
+      "message": "anotherTile",
+      "range": {
+        "startLine": 62,
+        "startChar": 25,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "271273e20035f4487f90717b74ae04bfff6a4bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
