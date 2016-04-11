@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_304cd441",
+        "filename": "Game2048.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1007688
+      },
+      "writtenOn": "2016-04-11T18:37:08Z",
+      "side": 1,
+      "message": "red",
+      "revId": "b23cb108ed367622ec294993e8a41cee7c8ce95b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_f0554cc6",
+        "filename": "GameManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1007688
+      },
+      "writtenOn": "2016-04-11T18:37:08Z",
+      "side": 1,
+      "message": "red",
+      "revId": "b23cb108ed367622ec294993e8a41cee7c8ce95b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
