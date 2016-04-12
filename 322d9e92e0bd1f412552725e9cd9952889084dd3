@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_03d2a900",
+        "filename": "GridOperator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-12T14:08:31Z",
+      "side": 1,
+      "message": "red",
+      "range": {
+        "startLine": 31,
+        "startChar": 80,
+        "endLine": 31,
+        "endChar": 81
+      },
+      "revId": "322d9e92e0bd1f412552725e9cd9952889084dd3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c3dba11a",
+        "filename": "game.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-04-12T14:08:31Z",
+      "side": 1,
+      "message": "red",
+      "range": {
+        "startLine": 39,
+        "startChar": 30,
+        "endLine": 39,
+        "endChar": 31
+      },
+      "revId": "322d9e92e0bd1f412552725e9cd9952889084dd3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
