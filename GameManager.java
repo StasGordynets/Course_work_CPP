@@ -1,17 +1,23 @@
-package game2048;
+package application;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import application.Board;
+import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -19,52 +25,81 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
+import javafx.application.HostServices;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.Group;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 public class GameManager extends Group {
-  private Board board;
-  private final List<Location> locations = new ArrayList<>();
-  private final Map<Location, Tile> gameGrid = new HashMap<>();
-  private final ParallelTransition parallelTransition = new ParallelTransition();
+
+  public static final int FINAL_VALUE_TO_WIN = 2048;
+
+  private static final Duration ANIMATION_EXISTING_TILE = Duration.millis(65);
+  private static final Duration ANIMATION_NEWLY_ADDED_TILE = Duration.millis(125);
+  private static final Duration ANIMATION_MERGED_TILE = Duration.millis(80);
+
   private volatile boolean movingTiles = false;
-  private int tilesWereMoved = 0;
+  private final List<Location> locations = new ArrayList<>();
+  private final Map<Location, Tile> gameGrid;
   private final Set<Tile> mergedToBeRemoved = new HashSet<>();
+
+  private final Board board;
+  private final GridOperator gridOperator;
+
+  public GameManager() {
+    this(GridOperator.DEFAULT_GRID_SIZE);
+  }
 
   /**
    * GameManager is a Group containing a Board that holds a grid and the score a Map holds the
-   * location of the tiles in the grid The purpose of the game is sum the value of the tiles up to
-   * 2048 points
+   * location of the tiles in the grid
+   *
+   * The purpose of the game is sum the value of the tiles up to 2048 points Based on the Javascript
+   *
+   * @param gridSize defines the size of the grid, default 4x4
    */
-  public GameManager() {
-    // Create board and it to gameManager
-    board = new Board();
-    getChildren().add(board);
-    // Add listener to reset game
-    board.resetGameProperty().addListener((OValue, booleanFirst, booleanSecond) -> {
+  public GameManager(int gridSize) {
+    this.gameGrid = new HashMap<>();
+
+    gridOperator = new GridOperator(gridSize);
+    board = new Board(gridOperator);
+    this.getChildren().add(board);
+
+    board.clearGameProperty().addListener((OValue, booleanFirst, booleanSecond) -> {
       if (booleanSecond) {
         initializeGameGrid();
+      }
+    });
+    board.resetGameProperty().addListener((OValue, booleanFirst, booleanSecond) -> {
+      if (booleanSecond) {
         startGame();
       }
     });
-    // Ñall initilize gameGrid
+    board.restoreGameProperty().addListener((OValue, booleanFirst, booleanSecond) -> {
+      if (booleanSecond) {
+        doRestoreSession();
+      }
+    });
+    board.saveGameProperty().addListener((OValue, booleanFirst, booleanSecond) -> {
+      if (booleanSecond) {
+        doSaveSession();
+      }
+    });
     initializeGameGrid();
-    // Ñall start game to display a tile on the board
     startGame();
-    board.setGameStart(true);
   }
 
   /**
    * Initializes all cells in gameGrid map to null
    */
   private void initializeGameGrid() {
-    // Clear the lists, add all locations, and call it before startGame
     gameGrid.clear();
     locations.clear();
-    GridOperator.traverseGrid((xPosition, yPosition) -> {
-      Location location = new Location(xPosition, yPosition);
-      locations.add(location);
-      gameGrid.put(location, null);
+    gridOperator.traverseGrid((x, y) -> {
+      Location thisloc = new Location(x, y);
+      locations.add(thisloc);
+      gameGrid.put(thisloc, null);
       return 0;
     });
   }
@@ -73,137 +108,182 @@ public class GameManager extends Group {
    * Starts the game by adding 1 or 2 tiles at random locations
    */
   private void startGame() {
-    Tile tileNew = Tile.newRandomTile();
-    List<Location> locCopy = locations.stream().collect(Collectors.toList());
-    Collections.shuffle(locCopy);
-    tileNew.setLocation(locCopy.get(0));
-    gameGrid.put(tileNew.getLocation(), tileNew);
-    Tile tile1 = Tile.newRandomTile();
-    tile1.setLocation(locCopy.get(1));
-    gameGrid.put(tile1.getLocation(), tile1);
+    Tile tile0 = Tile.newRandomTile();
+    List<Location> randomLocs = new ArrayList<>(locations);
+    Collections.shuffle(randomLocs);
+    Iterator<Location> locs = randomLocs.stream().limit(2).iterator();
+    tile0.setLocation(locs.next());
+
+    Tile tile1 = null;
+    if (new Random().nextFloat() <= 0.8) { // gives 80% chance to add a second tile
+      tile1 = Tile.newRandomTile();
+      if (tile1.getValue() == 4 && tile0.getValue() == 4) {
+        tile1 = Tile.newTile(2);
+      }
+      tile1.setLocation(locs.next());
+    }
+    Arrays.asList(tile0, tile1).stream().filter(Objects::nonNull)
+        .forEach(t -> gameGrid.put(t.getLocation(), t));
     redrawTilesInGameGrid();
+    board.startGame();
   }
 
   /**
    * Redraws all tiles in the <code>gameGrid</code> object
    */
   private void redrawTilesInGameGrid() {
-    gameGrid.values().stream().filter(Objects::nonNull).forEach(board::addTile);
+    gameGrid.values().stream().filter(Objects::nonNull).forEach(t -> board.addTile(t));
   }
 
   /**
    * Moves the tiles according to given direction At any move, takes care of merge tiles, add a new
    * one and perform the required animations It updates the score and checks if the user won the
-   * game or if the game is over direction is the selected direction to move the tiles
+   * game or if the game is over
+   *
+   * @param direction is the selected direction to move the tiles
    */
-  public void move(Direction direction) {
+  private void moveTiles(Direction direction) {
     synchronized (gameGrid) {
       if (movingTiles) {
         return;
       }
     }
-    GridOperator.sortGrid(direction);
-    board.setPoints(0);
-    tilesWereMoved = GridOperator.traverseGrid((xPosition, yPosition) -> {
-      AtomicInteger result = new AtomicInteger();
-      optionalTile(new Location(xPosition, yPosition)).ifPresent(fitstTileToCheck -> {
-        final Location newLocation =
-            findFarthestLocation(fitstTileToCheck.getLocation(), direction);
-        Location nextLocation = newLocation.offset(direction); // calculates to a possible merge
-        optionalTile(nextLocation)
-            .filter(secondTileToCheck -> fitstTileToCheck.isMergeable(secondTileToCheck)
-                && !secondTileToCheck.isMerged())
-            .ifPresent(secondTileToCheck -> {
-              secondTileToCheck.merge(fitstTileToCheck);
-              secondTileToCheck.toFront();
-              gameGrid.put(nextLocation, secondTileToCheck);
-              gameGrid.replace(fitstTileToCheck.getLocation(), null);
-              board.addPoints(secondTileToCheck.getValue());
-              board.BestPoints(secondTileToCheck.getValue());
-              if (secondTileToCheck.getValue() == 2048) {
-                System.out.println("You win!!!");
-                board.setGameWin(true);
-                Board.Winner = true;
-              }
-              parallelTransition.getChildren()
-                  .add(animateExistingTile(fitstTileToCheck, nextLocation));
-              parallelTransition.getChildren().add(animateMergedTile(secondTileToCheck));
-              mergedToBeRemoved.add(fitstTileToCheck);
-              result.set(1);
-            });
 
-        if (result.get() == 0 && !newLocation.equals(fitstTileToCheck.getLocation())) {
-          parallelTransition.getChildren().add(animateExistingTile(fitstTileToCheck, newLocation));
-          gameGrid.put(newLocation, fitstTileToCheck);
-          gameGrid.replace(fitstTileToCheck.getLocation(), null);
-          fitstTileToCheck.setLocation(newLocation);
-          result.set(1);
-        }
-      });
+    board.setPoints(0);
+    mergedToBeRemoved.clear();
+    ParallelTransition parallelTransition = new ParallelTransition();
+    gridOperator.sortGrid(direction);
+    final int tilesWereMoved = gridOperator.traverseGrid((x, y) -> {
+      Location thisloc = new Location(x, y);
+      Location farthestLocation = findFarthestLocation(thisloc, direction); // farthest available
+                                                                            // location
+      Optional<Tile> opTile = optionalTile(thisloc);
+
+      AtomicInteger result = new AtomicInteger();
+      Location nextLocation = farthestLocation.offset(direction); // calculates to a possible merge
+      optionalTile(nextLocation).filter(t -> t.isMergeable(opTile) && !t.isMerged())
+          .ifPresent(t -> {
+            Tile tile = opTile.get();
+            t.merge(tile);
+            t.toFront();
+            gameGrid.put(nextLocation, t);
+            gameGrid.replace(thisloc, null);
+
+            parallelTransition.getChildren().add(animateExistingTile(tile, t.getLocation()));
+            parallelTransition.getChildren().add(animateMergedTile(t));
+            mergedToBeRemoved.add(tile);
+
+            board.addPoints(t.getValue());
+
+            if (t.getValue() == FINAL_VALUE_TO_WIN) {
+              board.setGameWin(true);
+              Board.Winner = true;
+              if (Board.BotActive == true) {
+                GameBot.AnimationTimer.stop();
+                Board.BotActive = false;
+              }
+            }
+            result.set(1);
+          });
+      if (result.get() == 0 && opTile.isPresent() && !farthestLocation.equals(thisloc)) {
+        Tile tile = opTile.get();
+        parallelTransition.getChildren().add(animateExistingTile(tile, farthestLocation));
+
+        gameGrid.put(farthestLocation, tile);
+        gameGrid.replace(thisloc, null);
+
+        tile.setLocation(farthestLocation);
+
+        result.set(1);
+      }
+
       return result.get();
     });
+
     board.animateScore();
-    parallelTransition.setOnFinished(e -> {
-      synchronized (gameGrid) {
-        movingTiles = false;
-      }
-      board.getGridGroup().getChildren().removeAll(mergedToBeRemoved);
-      mergedToBeRemoved.clear();
-      gameGrid.values().stream().filter(Objects::nonNull).forEach(t -> t.setMerged(false));
-      Location randomAvailableLocation = findRandomAvailableLocation();
-      if (randomAvailableLocation != null) {
-        addAndAnimateRandomTile(randomAvailableLocation);
-      } else {
-        if (mergeMovementsAvailable() == 0) {
-          System.out.println("Game Over!!!");
+    if (parallelTransition.getChildren().size() > 0) {
+      parallelTransition.setOnFinished(e -> {
+        board.getGridGroup().getChildren().removeAll(mergedToBeRemoved);
+        // reset merged after each movement
+        gameGrid.values().stream().filter(Objects::nonNull).forEach(Tile::clearMerge);
+
+        Location randomAvailableLocation = findRandomAvailableLocation();
+        if (randomAvailableLocation == null && mergeMovementsAvailable() == 0) {
+          // game is over if there are no more moves available
           board.setGameOver(true);
           Board.GameOver = true;
+          if (Board.BotActive == true) {
+            GameBot.AnimationTimer.stop();
+            Board.BotActive = false;
+          }
+        } else if (randomAvailableLocation != null && tilesWereMoved > 0) {
+          synchronized (gameGrid) {
+            movingTiles = false;
+          }
+          addAndAnimateRandomTile(randomAvailableLocation);
         }
+      });
+
+      synchronized (gameGrid) {
+        movingTiles = true;
       }
-    });
-    synchronized (gameGrid) {
-      movingTiles = true;
+
+      parallelTransition.play();
     }
-    parallelTransition.play();
-    parallelTransition.getChildren().clear();
+  }
+
+  /**
+   * optionalTile allows using tiles from the map at some location, whether they are null or not
+   * 
+   * @param loc location of the tile
+   * @return an Optional<Tile> containing null or a valid tile
+   */
+  private Optional<Tile> optionalTile(Location loc) {
+    return Optional.ofNullable(gameGrid.get(loc));
   }
 
   /**
    * Searchs for the farthest empty location where the current tile could go
-   *
+   * 
    * @param location of the tile
    * @param direction of movement
    * @return a location
    */
   private Location findFarthestLocation(Location location, Direction direction) {
-    Location farthest = location;
+    Location farthest;
+
     do {
       farthest = location;
       location = farthest.offset(direction);
-    } while (location.isValidFor() && gameGrid.get(location) == null);
+    } while (gridOperator.isValidLocation(location) && !optionalTile(location).isPresent());
+
     return farthest;
   }
 
   /**
-   * Animation that moves the tile from its previous location to a new location
-   *
-   * @param tile to be animated
-   * @param newLocation new location of the tile
-   * @return a timeline
+   * Finds the number of pairs of tiles that can be merged
+   * 
+   * This method is called only when the grid is full of tiles, what makes the use of Optional
+   * unnecessary, but it could be used when the board is not full to find the number of pairs of
+   * mergeable tiles and provide a hint for the user, for instance
+   * 
+   * @return the number of pairs of tiles that can be merged
    */
-  private Timeline animateExistingTile(Tile tile, Location newLocation) {
-    Timeline timeline = new Timeline();
-    KeyValue kvX = new KeyValue(tile.layoutXProperty(),
-        newLocation.getLayoutX(Board.CELL_SIZE) - (tile.getMinHeight() / 2),
-        Interpolator.EASE_OUT);
-    KeyValue kvY = new KeyValue(tile.layoutYProperty(),
-        newLocation.getLayoutY(Board.CELL_SIZE) - (tile.getMinHeight() / 2),
-        Interpolator.EASE_OUT);
-    KeyFrame kfX = new KeyFrame(Duration.millis(100), kvX);
-    KeyFrame kfY = new KeyFrame(Duration.millis(100), kvY);
-    timeline.getKeyFrames().add(kfX);
-    timeline.getKeyFrames().add(kfY);
-    return timeline;
+  private int mergeMovementsAvailable() {
+    final AtomicInteger pairsOfMergeableTiles = new AtomicInteger();
+
+    Stream.of(Direction.UP, Direction.LEFT).parallel().forEach(direction -> {
+      gridOperator.traverseGrid((x, y) -> {
+        Location thisloc = new Location(x, y);
+        optionalTile(thisloc).ifPresent(t -> {
+          if (t.isMergeable(optionalTile(thisloc.offset(direction)))) {
+            pairsOfMergeableTiles.incrementAndGet();
+          }
+        });
+        return 0;
+      });
+    });
+    return pairsOfMergeableTiles.get();
   }
 
   /**
@@ -212,96 +292,229 @@ public class GameManager extends Group {
    * @return a random location or <code>null</code> if there are no more locations available
    */
   private Location findRandomAvailableLocation() {
-    Location location = null;
     List<Location> availableLocations =
         locations.stream().filter(l -> gameGrid.get(l) == null).collect(Collectors.toList());
+
     if (availableLocations.isEmpty()) {
       return null;
     }
+
     Collections.shuffle(availableLocations);
-    location = availableLocations.get(0);
-    return location;
+    Location randomLocation =
+        availableLocations.get(new Random().nextInt(availableLocations.size()));
+    return randomLocation;
   }
 
   /**
    * Adds a tile of random value to a random location with a proper animation
-   *
+   * 
    * @param randomLocation
    */
   private void addAndAnimateRandomTile(Location randomLocation) {
-    Tile tile = Tile.newRandomTile();
-    tile.setLocation(randomLocation);
-    tile.setScaleX(0);
-    tile.setScaleY(0);
-    board.addTile(tile);
+    Tile tile = board.addRandomTile(randomLocation);
     gameGrid.put(tile.getLocation(), tile);
 
-    final ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(125), tile);
+    animateNewlyAddedTile(tile).play();
+  }
+
+  /**
+   * Animation that creates a fade in effect when a tile is added to the game by increasing the tile
+   * scale from 0 to 100%
+   * 
+   * @param tile to be animated
+   * @return a scale transition
+   */
+  private ScaleTransition animateNewlyAddedTile(Tile tile) {
+    final ScaleTransition scaleTransition = new ScaleTransition(ANIMATION_NEWLY_ADDED_TILE, tile);
     scaleTransition.setToX(1.0);
     scaleTransition.setToY(1.0);
     scaleTransition.setInterpolator(Interpolator.EASE_OUT);
     scaleTransition.setOnFinished(e -> {
-      if (gameGrid.values().parallelStream().noneMatch(Objects::isNull)
+      // after last movement on full grid, check if there are movements available
+      if (this.gameGrid.values().parallelStream().noneMatch(Objects::isNull)
           && mergeMovementsAvailable() == 0) {
         board.setGameOver(true);
       }
     });
-    scaleTransition.play();
+    return scaleTransition;
   }
 
   /**
-   * Animation that creates a pop effect when two tiles merge by increasing the tile
-   * scale to 120% at the middle, and then going back to 100%
-   *
+   * Animation that moves the tile from its previous location to a new location
+   * 
+   * @param tile to be animated
+   * @param newLocation new location of the tile
+   * @return a timeline
+   */
+  private Timeline animateExistingTile(Tile tile, Location newLocation) {
+    Timeline timeline = new Timeline();
+    KeyValue kvX = new KeyValue(tile.layoutXProperty(),
+        newLocation.getLayoutX(Board.CELL_SIZE) - (tile.getMinHeight() / 2), Interpolator.EASE_OUT);
+    KeyValue kvY = new KeyValue(tile.layoutYProperty(),
+        newLocation.getLayoutY(Board.CELL_SIZE) - (tile.getMinHeight() / 2), Interpolator.EASE_OUT);
+
+    KeyFrame kfX = new KeyFrame(ANIMATION_EXISTING_TILE, kvX);
+    KeyFrame kfY = new KeyFrame(ANIMATION_EXISTING_TILE, kvY);
+
+    timeline.getKeyFrames().add(kfX);
+    timeline.getKeyFrames().add(kfY);
+
+    return timeline;
+  }
+
+  /**
+   * Animation that creates a pop effect when two tiles merge by increasing the tile scale to 120%
+   * at the middle, and then going back to 100%
+   * 
    * @param tile to be animated
    * @return a sequential transition
    */
   private SequentialTransition animateMergedTile(Tile tile) {
-    final ScaleTransition scale0 = new ScaleTransition(Duration.millis(80), tile);
+    final ScaleTransition scale0 = new ScaleTransition(ANIMATION_MERGED_TILE, tile);
     scale0.setToX(1.2);
     scale0.setToY(1.2);
     scale0.setInterpolator(Interpolator.EASE_IN);
 
-    final ScaleTransition scale1 = new ScaleTransition(Duration.millis(80), tile);
+    final ScaleTransition scale1 = new ScaleTransition(ANIMATION_MERGED_TILE, tile);
     scale1.setToX(1.0);
     scale1.setToY(1.0);
     scale1.setInterpolator(Interpolator.EASE_OUT);
 
     return new SequentialTransition(scale0, scale1);
   }
-
+  
   /**
-   * Finds the number of pairs of tiles that can be merged
-   *
-   * This method is called only when the grid is full of tiles, what makes the use of Optional
-   * unnecessary, but it could be used when the board is not full to find the number
-   * of pairs of mergeable tiles and provide a hint for the user, for instance
-   *
-   * @return the number of pairs of tiles that can be merged
+   * Move the tiles according user input if overlay is not on
+   * 
+   * @param direction
    */
-  private int mergeMovementsAvailable() {
-    final AtomicInteger numMergeableTile = new AtomicInteger();
-    Stream.of(Direction.UP, Direction.LEFT).parallel().forEach(direction -> {
-      GridOperator.traverseGrid((x, y) -> {
-        Location thisloc = new Location(x, y);
-        optionalTile(thisloc).ifPresent(fitstTileToCheck -> {
-          optionalTile(thisloc.offset(direction))
-              .filter(secondTileToCheck -> fitstTileToCheck.isMergeable(secondTileToCheck))
-              .ifPresent(secondTileToCheck -> numMergeableTile.incrementAndGet());
-        });
-        return 0;
-      });
-    });
-    return numMergeableTile.get();
+  public void move(Direction direction) {
+    if (!board.isLayerOn().get()) {
+      moveTiles(direction);
+      SessionManager.NumberSave++;
+      doSaveSession();
+    }
   }
 
   /**
-   * optionalTile allows using tiles from the map at some location, whether they are null or not
-   *
-   * @param loc location of the tile
-   * @return an Optional<Tile> containing null or a valid tile
+   * Set gameManager scale to adjust overall game size
+   * 
+   * @param scale
    */
-  private Optional<Tile> optionalTile(Location loc) {
-    return Optional.ofNullable(gameGrid.get(loc));
+  public void setScale(double scale) {
+    this.setScaleX(scale);
+    this.setScaleY(scale);
+  }
+
+  /**
+   * Check if overlay covers the grid or not
+   *
+   * @return
+   */
+  public BooleanProperty isLayerOn() {
+    return board.isLayerOn();
+  }
+
+  /**
+   * Pauses the game time, covers the grid
+   */
+  public void BotGame() {
+    board.BotGame();
+  }
+
+  /**
+   * Pauses the game time, covers the grid
+   */
+  public void pauseGame() {
+    board.pauseGame();
+  }
+
+  /**
+   * Quit the game with confirmation
+   */
+  public void quitGame() {
+    board.quitGame();
+  }
+
+  /**
+   * Ask to save the game from a properties file with confirmation
+   */
+  public void saveSession() {
+    board.saveSession();
+  }
+
+  /**
+   * Save the game to a properties file, without confirmation
+   */
+  private void doSaveSession() {
+    board.saveSession(gameGrid);
+  }
+
+  /**
+   * Ask to restore the game from a properties file with confirmation
+   */
+  public void restoreSession() {
+    board.restoreSession();
+  }
+
+  /**
+   * Restore the game from a properties file, without confirmation
+   */
+  public void doRestoreSession() {
+    initializeGameGrid();
+    if (board.restoreSession(gameGrid)) {
+      redrawTilesInGameGrid();
+    }
+  }
+
+  AnimationTimer AnimationTimerRiplay = new AnimationTimer() {
+    @Override
+    public void handle(long now) {
+      try {
+        Thread.sleep(200);
+      } catch (InterruptedException e) {
+      }
+      System.out.printf("NumberRead: %d \n", SessionManager.NumberRead);
+      System.out.printf("NumberSave: %d \n", SessionManager.NumberSave);
+      doRestoreSession();
+      try {
+        Thread.sleep(200);
+      } catch (InterruptedException e) {
+      }
+      if (SessionManager.EndFile == true) {
+        this.stop();
+        SessionManager.NumberRead = 0;
+        System.out.printf("NumberRead if: %d \n", SessionManager.NumberRead);
+      } else {
+        SessionManager.EndFile = false;
+      }
+    }
+  };
+
+  public void ReplayRun() {
+    AnimationTimerRiplay.start();
+  }
+
+  /**
+   * Save actual record to a properties file
+   */
+  public void saveRecord() {
+    board.saveRecord();
+  }
+
+  public void tryAgain() {
+    board.tryAgain();
+  }
+
+  public void aboutGame() {
+    board.aboutGame();
+  }
+
+  public void setToolBar(HBox toolbar) {
+    board.setToolBar(toolbar);
+  }
+
+  public void setHostServices(HostServices hostServices) {
+    board.setHostServices(hostServices);
   }
 }
