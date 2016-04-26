@@ -1,87 +1,71 @@
-package game2048;
+package application;
 
+import java.util.Optional;
 import java.util.Random;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 
 public class Tile extends Label {
-  private int value;
-  private Location location;
-  private boolean merged;
 
-  /**
-   * Create random value, 90% chance 2, 10% 4
-   */
-  public static Tile newRandomTile() {
-    return newTile(new Random().nextDouble() < 0.9 ? 2 : 4);
-  }
+    private Integer value;
+    private Location location;
+    private Boolean merged;
 
-  public static Tile newTile(int value) {
-    return new Tile(value);
-  }
+    public static Tile newRandomTile() {
+        int value = new Random().nextDouble() < 0.9 ? 2 : 4;
+        return new Tile(value);
+    }
 
-  /**
-   * Create tile
-   */
-  private Tile(int value) {
-    // Board.CELL_SIZE - 13 -> this is the tile that was a bit less than the field
-    final int squareSize = Board.CELL_SIZE - 13;
-    setMinSize(squareSize, squareSize);
-    setMaxSize(squareSize, squareSize);
-    setPrefSize(squareSize, squareSize);
-    getStyleClass().addAll("game-label", "game-tile-" + value);
-    setAlignment(Pos.CENTER);
+    public static Tile newTile(int value) {
+        return new Tile(value);
+    }
 
-    this.value = value;
-    this.merged = false;
-    setText(Integer.toString(value));
-  }
+    private Tile(Integer value) {
+        final int squareSize = Board.CELL_SIZE - 13;
+        setMinSize(squareSize, squareSize);
+        setMaxSize(squareSize, squareSize);
+        setPrefSize(squareSize, squareSize);
+        setAlignment(Pos.CENTER);
+        this.value = value;
+        this.merged = false;
+        setText(value.toString());
+        getStyleClass().addAll("game-label", "game-tile-" + value);
+    }
 
-  public int getValue() {
-    return value;
-  }
+    public void merge(Tile another) {
+        getStyleClass().remove("game-tile-" + value);
+        this.value += another.getValue();
+        setText(value.toString());
+        merged = true;
+        getStyleClass().add("game-tile-" + value);
+    }
 
-  public void setValue(int value) {
-    this.value = value;
-  }
+    public Integer getValue() {
+        return value;
+    }
 
-  public Location getLocation() {
-    return location;
-  }
+    public Location getLocation() {
+        return location;
+    }
 
-  public void setLocation(Location location) {
-    this.location = location;
-  }
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
-  public boolean isMerged() {
-    return merged;
-  }
+    @Override
+    public String toString() {
+    	return "Tile{" + "value=" + value + ", location=" + location + ", merged=" + merged + '}';
+    }
 
-  public void setMerged(boolean merged) {
-    this.merged = merged;
-  }
+    public boolean isMerged() {
+        return merged;
+    }
 
-  @Override
-  public String toString() {
-    return "Tile{" + "value=" + value + ", location=" + location + ", merged=" + merged + '}';
-  }
+    public void clearMerge() {
+        merged = false;
+    }
 
-  /**
-   * Add to tile's value the value of the tile to be merged to, set the text with the new value and
-   * replace the old style ‘game-title-“-value with the new one
-   */
-  public void merge(Tile anotherTile) {
-    getStyleClass().remove("game-tile-" + value);
-    this.value += anotherTile.getValue();
-    setText(Integer.toString(value));
-    merged = true;
-    getStyleClass().add("game-tile-" + value);
-  }
-
-  /**
-   * Check it this.tile can be merged with anotherTile
-   */
-  public boolean isMergeable(Tile anotherTile) {
-    return anotherTile != null && getValue() == anotherTile.getValue();
-  }
+    public boolean isMergeable(Optional<Tile> anotherTile) {
+        return anotherTile.filter(t->t.getValue().equals(getValue())).isPresent();
+    }
 }

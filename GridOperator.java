@@ -1,4 +1,4 @@
-package game2048;
+package application;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,33 +8,44 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GridOperator {
+  public static final int DEFAULT_GRID_SIZE = 4;
+  private final int gridSize;
+  private final List<Integer> traversalX;
+  private final List<Integer> traversalY;
 
-  private static final List<Integer> traversalX =
-      IntStream.range(0, 4).boxed().collect(Collectors.toList());
-  private static final List<Integer> traversalY =
-      IntStream.range(0, 4).boxed().collect(Collectors.toList());
-
-  /**
-   * Traverse grid, applyinf the functional to every cell, returning the accumulated result
-   */
-  public static int traverseGrid(IntBinaryOperator func) {
-    AtomicInteger at = new AtomicInteger();
-    traversalX.forEach(x -> {
-      traversalY.forEach(y -> {
-        at.addAndGet(func.applyAsInt(x, y));
-      });
-    });
-    return at.get();
+  public GridOperator() {
+    this(DEFAULT_GRID_SIZE);
   }
 
-  /**
-   * Sort TraversalX, traversalY, so for Right or Down directions they are taken 
-   * in reverse order
-   */
-  public static void sortGrid(Direction direction) {
+  public GridOperator(int gridSize) {
+    this.gridSize = gridSize;
+    this.traversalX = IntStream.range(0, gridSize).boxed().collect(Collectors.toList());
+    this.traversalY = IntStream.range(0, gridSize).boxed().collect(Collectors.toList());
+  }
+
+  public void sortGrid(Direction direction) {
     Collections.sort(traversalX,
         direction.equals(Direction.RIGHT) ? Collections.reverseOrder() : Integer::compareTo);
     Collections.sort(traversalY,
         direction.equals(Direction.DOWN) ? Collections.reverseOrder() : Integer::compareTo);
   }
+
+  public int traverseGrid(IntBinaryOperator func) {
+    AtomicInteger at = new AtomicInteger();
+    traversalX.forEach(t_x -> {
+      traversalY.forEach(t_y -> {
+        at.addAndGet(func.applyAsInt(t_x, t_y));
+      });
+    });
+    return at.get();
+  }
+
+  public int getGridSize() {
+    return gridSize;
+  }
+
+  public boolean isValidLocation(Location loc) {
+    return loc.getX() >= 0 && loc.getX() < gridSize && loc.getY() >= 0 && loc.getY() < gridSize;
+  }
+
 }

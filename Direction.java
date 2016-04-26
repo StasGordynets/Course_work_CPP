@@ -1,5 +1,6 @@
-package game2048;
+package application;
 
+import application.Direction;
 import javafx.scene.input.KeyCode;
 
 public enum Direction {
@@ -24,12 +25,9 @@ public enum Direction {
 
   @Override
   public String toString() {
-    return "Direction{" + "y=" + y + ", x=" + x + "} " + name();
+    return "Direction{" + "y=" + y + ", x=" + x + '}' + name();
   }
 
-  /**
-   * We get action on the code button
-   */
   public static Direction valueFor(KeyCode keyCode) {
     return valueOf(keyCode.name());
   }
