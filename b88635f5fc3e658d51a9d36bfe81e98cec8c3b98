@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_b7165ea5",
+        "filename": "GameManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1007688
+      },
+      "writtenOn": "2016-04-26T14:50:52Z",
+      "side": 1,
+      "message": "red",
+      "revId": "b88635f5fc3e658d51a9d36bfe81e98cec8c3b98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_970d9a92",
+        "filename": "GameManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1007688
+      },
+      "writtenOn": "2016-04-26T14:50:52Z",
+      "side": 1,
+      "message": "red",
+      "revId": "b88635f5fc3e658d51a9d36bfe81e98cec8c3b98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_f74506b3",
+        "filename": "Location.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1007688
+      },
+      "writtenOn": "2016-04-26T14:50:52Z",
+      "side": 1,
+      "message": "red",
+      "revId": "b88635f5fc3e658d51a9d36bfe81e98cec8c3b98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_d71322b7",
+        "filename": "Location.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1007688
+      },
+      "writtenOn": "2016-04-26T14:50:52Z",
+      "side": 1,
+      "message": "make final",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "b88635f5fc3e658d51a9d36bfe81e98cec8c3b98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
