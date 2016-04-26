@@ -1,7 +1,7 @@
-package game2048;
+package application;
 
 import java.util.Random;
-import game2048.Direction;
+import application.Direction;
 import javafx.animation.AnimationTimer;
 
 public class GameBot {
@@ -20,7 +20,16 @@ public class GameBot {
   static AnimationTimer AnimationTimer = new AnimationTimer() {
     @Override
     public void handle(long now) {
+      try {
+        System.out.println(">>>>>> bot is active<<<<<<");
+        Thread.sleep(0);
+      } catch (InterruptedException e) {
+      }
       GameBot.PlayGameBot();
+      try {
+        Thread.sleep(0);
+      } catch (InterruptedException e)  {
+      }
       if ((Board.GameOver == true) || (Board.Winner == true)) {
         this.stop();
         Board.GameOver = false;
@@ -37,6 +46,6 @@ public class GameBot {
   public static void PlayGameBot() {
     int action = RandomNumber();
     Direction direction = Direction.valueForBOT(action);
-    Game2048.gameManager.move(direction);
+    GamePane.gameManager.move(direction);
   }
 }

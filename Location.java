@@ -1,41 +1,38 @@
-package game2048;
+package application;
 
 public class Location {
-  private int xPosition;
-  private int yPosition;
+  private final int x;
+  private final int y;
 
   public Location(int x, int y) {
-    this.xPosition = x;
-    this.yPosition = y;
+    this.x = x;
+    this.y = y;
+  }
+
+  public Location offset(Direction direction) {
+    return new Location(x + direction.getX(), y + direction.getY());
   }
 
   public int getX() {
-    return xPosition;
-  }
-
-  public void setX(int x) {
-    this.xPosition = x;
+    return x;
   }
 
   public int getY() {
-    return yPosition;
-  }
-
-  public void setY(int y) {
-    this.yPosition = y;
+    return y;
   }
 
   @Override
   public String toString() {
-    return "Location{" + "x=" + xPosition + ", y=" + yPosition + '}';
+    return "Location{" + "x=" + x + ", y=" + y + '}';
   }
 
   @Override
   public int hashCode() {
-    int hash = 7;
-    hash = 61 * hash + this.xPosition;
-    hash = 61 * hash + this.yPosition;
-    return hash;
+    final int HASH = 7; 
+	final int HASHNUMBER = 97;
+    HASH = HASHNUMBER * HASH + this.x;
+    HASH = HASHNUMBER * HASH + this.y;
+    return HASH;
   }
 
   @Override
@@ -47,29 +44,28 @@ public class Location {
       return false;
     }
     final Location other = (Location) obj;
-    if (this.xPosition != other.xPosition) {
+    if (this.x != other.x) {
       return false;
     }
-    return this.yPosition == other.yPosition;
-  }
-
-  /**
-   * Return the location of the tile in the selected direction
-   */
-  public Location offset(Direction direction) {
-    return new Location(xPosition + direction.getX(), yPosition + direction.getY());
-  }
-
-  public double getLayoutX(int CELL_SIZE) {
-    return (xPosition * CELL_SIZE) + CELL_SIZE / 2;
+    return this.y == other.y;
   }
 
   public double getLayoutY(int CELL_SIZE) {
-    return (yPosition * CELL_SIZE) + CELL_SIZE / 2;
+    if (y == 0) {
+      return CELL_SIZE / 2;
+    }
+    return (y * CELL_SIZE) + CELL_SIZE / 2;
   }
 
-  public boolean isValidFor() {
-    return xPosition >= 0 && xPosition < 4 && yPosition >= 0 && yPosition < 4;
+  public double getLayoutX(int CELL_SIZE) {
+    if (x == 0) {
+      return CELL_SIZE / 2;
+    }
+    return (x * CELL_SIZE) + CELL_SIZE / 2;
+  }
+
+  public boolean isValidFor(int gridSize) {
+    return x >= 0 && x < gridSize && y >= 0 && y < gridSize;
   }
 
 }
