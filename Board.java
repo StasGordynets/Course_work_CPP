@@ -1,8 +1,10 @@
 package application;
 
+import java.io.File;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import application.GameBot;
@@ -51,6 +53,12 @@ public class Board extends Group {
   private static final int GAP_HEIGHT = 50;
   private static final int TOOLBAR_HEIGHT = 80;
 
+  public static String Files[] = new String[1024];
+  public static int filesData[] = new int[1024];
+  public static int maxScore = 0;
+
+  public static int count = 0;
+
   private final IntegerProperty gameScoreProperty = new SimpleIntegerProperty(0);
   private final IntegerProperty gameBestProperty = new SimpleIntegerProperty(0);
   private final IntegerProperty gameMovePoints = new SimpleIntegerProperty(0);
@@ -72,6 +80,7 @@ public class Board extends Group {
   public static boolean GameOver = false;
   public static boolean Winner = false;
   public static boolean BotActive = false;
+  public static int SaveData = 0;
 
   private LocalTime time;
   private Timeline timer;
@@ -105,7 +114,7 @@ public class Board extends Group {
   private final HBox hToolbar = new HBox();
   private HostServices hostServices;
 
-  private final Label labelTime = new Label();
+  private final Label lblTime = new Label();
   private Timeline timerPause;
 
   private final int gridWidth;
@@ -257,7 +266,11 @@ public class Board extends Group {
     timerPause.stop();
     layerOnProperty.set(false);
     gameBotProperty.set(false);
-    Board.BotActive = false;
+    if (GameManager.ButtonBotActive == true) {
+      Board.BotActive = true;
+    } else {
+      Board.BotActive = false;
+    }
     gamePauseProperty.set(false);
     gameTryAgainProperty.set(false);
     gameSaveProperty.set(false);
@@ -265,8 +278,6 @@ public class Board extends Group {
     gameAboutProperty.set(false);
     gameQuitProperty.set(false);
     timer.play();
-    GameBot.AnimationTimer.stop();
-    BotActive = false;
   }
 
   private void quit() {
@@ -287,8 +298,8 @@ public class Board extends Group {
         String style2, boolean pause) {
       this.message = message;
       this.warning = warning;
-      this.btn1 = button1;
-      this.btn2 = button2;
+      this.button1 = button1;
+      this.button2 = button2;
       this.style1 = style1;
       this.style2 = style2;
       this.pause = pause;
@@ -649,7 +660,8 @@ public class Board extends Group {
   public void saveSession(Map<Location, Tile> gameGrid) {
     saveGame.set(false);
     sessionManager.saveSession(gameGrid, gameScoreProperty.getValue(),
-        LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay());
+        LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay(),
+        SessionManager.NumberSave + 1);
     keepGoing();
   }
 
@@ -668,8 +680,10 @@ public class Board extends Group {
     restoreGame.set(false);
     doClearGame();
     timer.stop();
+    // SaveData = sessionManager.restoreSave();
+    // System.out.printf("-------- SaveData ----->: %d \n", SaveData);
     StringProperty sTime = new SimpleStringProperty("");
-    int score = sessionManager.restoreSession(gameGrid, sTime, sessionManager.NumberSave);
+    int score = sessionManager.restoreSession(gameGrid, sTime);
     if (score >= 0) {
       gameScoreProperty.set(score);
       // check tiles>=2048
@@ -687,8 +701,41 @@ public class Board extends Group {
       timer.play();
       return true;
     }
-    // not session found, restart again
     doResetGame();
+    return false;
+  }
+
+  public static boolean sortingSessionScore(File gameReadALLFile) {
+    int score = SessionManager.SortingFileScore(gameReadALLFile);
+
+    if (filesData[0] == 0) {
+      filesData[count] = score;
+      files[count] = gameReadALLFile.getName();
+    }
+
+    if (score > filesData[count]) {
+      filesData[count] = score;
+      files[count] = gameReadALLFile.getName();
+    }
+    count++;
+
+    return false;
+  }
+
+  public static boolean sortingSessionStep(File gameReadALLFile) {
+    int NumberOfSave = SessionManager.SortingFileStep(gameReadALLFile);
+
+    if (filesData[0] == 0) {
+      filesData[count] = NumberOfSave;
+      files[count] = gameReadALLFile.getName();
+    }
+
+    if (NumberOfSave > filesData[count]) {
+      filesData[count] = NumberOfSave;
+      files[count] = gameReadALLFile.getName();
+    }
+    count++;
+
     return false;
   }
 
