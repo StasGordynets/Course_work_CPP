@@ -1,3 +1,100 @@
+.game-sorting 
+{
+    -fx-background-repeat: stretch;   
+ 	-fx-background-position: center center;
+ 	-fx-background-color: radial-gradient(center 50.0% 50.0%, radius 60.0%, reflect, #ADFF2F, black );
+ 	-fx-effect: dropshadow(three-pass-box, #FF0000, 30.0, 0.5, 0.0, 0.0); 
+    -fx-background-insets: 15.0; 
+}
+.game-info_sorting
+{ 
+    -fx-translate-x: 45.0;
+    -fx-translate-y: 50.0; 
+	-fx-font: 30.0px Tahoma;
+    -fx-fill: linear-gradient(from 0.0% 0.0% to 100.0% 200.0%, repeat, #FF00FF 0.0%, #00FF00 80.0%);
+    -fx-stroke: black;
+    -fx-stroke-width: 1.0;
+}
+.game-button_sorting_long
+{ 
+    -fx-font-size: 14.0px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #FF0000; 
+    -fx-background-radius: 10.0;
+    -fx-border-radius: 10.0;
+    -fx-max-height: 20.0;
+    -fx-max-width: 100.0;
+    -fx-translate-x: 390.0;
+    -fx-translate-y: 25.0; 
+}
+.game-button_sorting_long:hover 
+{
+ 	-fx-background-color: linear-gradient(#FF0000, #00FF00);
+}
+.game-button_sorting_score
+{ 
+    -fx-font-size: 14.0px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #FF0000; 
+    -fx-background-radius: 10.0;
+    -fx-border-radius: 10.0;
+    -fx-max-height: 20.0;
+    -fx-max-width: 100.0;
+    -fx-translate-x: 465.0;
+    -fx-translate-y: 25.0; 
+}
+.game-button_sorting_score:hover 
+{
+ 	-fx-background-color: linear-gradient(#FF0000, #00FF00);
+}
+.game-button_sorting_s_long
+{ 
+    -fx-font-size: 14.0px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #FF0000; 
+    -fx-background-radius: 10.0;
+    -fx-border-radius: 10.0;
+    -fx-max-height: 20.0;
+    -fx-max-width: 100.0;
+    -fx-translate-x: 545.0;
+    -fx-translate-y: 25.0; 
+}
+.game-button_sorting_s_long:hover 
+{
+ 	-fx-background-color: linear-gradient(#FF0000, #00FF00);
+}
+.game-button_sorting_s_score
+{ 
+    -fx-font-size: 14.0px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #FF0000; 
+    -fx-background-radius: 10.0;
+    -fx-border-radius: 10.0;
+    -fx-max-height: 20.0;
+    -fx-max-width: 100.0;
+    -fx-translate-x: 637.0;
+    -fx-translate-y: 25.0; 
+}
+.game-button_sorting_s_score:hover 
+{
+ 	-fx-background-color: linear-gradient(#FF0000, #00FF00);
+}
+.game-button_close
+{ 
+    -fx-font-size: 14.0px;
+    -fx-text-fill: #f9f6f2;
+    -fx-background-color: #FF0000; 
+    -fx-background-radius: 10.0;
+    -fx-border-radius: 10.0;
+    -fx-max-height: 20.0;
+    -fx-max-width: 100.0;
+    -fx-translate-x: 365.0;
+    -fx-translate-y: 700.0; 
+}
+.game-button_close:hover 
+{
+ 	-fx-background-color: linear-gradient(#FF0000, #00FF00);
+}
 .game-root 
 {
     -fx-background-repeat: stretch;   
@@ -354,6 +451,20 @@ SVG ICONS https://icomoon.io/app/
     -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
 }
 #mInfo:pressed {
+    -fx-translate-y: 2px;
+    -fx-effect: dropshadow(gaussian,derive(-fx-focus-color,-20%),10,0.5,0,0);
+}
+#mSorting {
+    -fx-shape: "M3 12.984v-1.969h12v1.969h-12zM3 6h18v2.016h-18v-2.016zM3 18v-2.016h6v2.016h-6z";
+    -fx-background-color: #f9f6f2;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.0;
+    -fx-focus-traversable: true;
+}
+#mSorting:hover {
+    -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
+}
+#mSorting:pressed {
     -fx-translate-y: 2px;
     -fx-effect: dropshadow(gaussian,derive(-fx-focus-color,-20%),10,0.5,0,0);
 }
