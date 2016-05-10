@@ -21,7 +21,7 @@ public class GameBot {
     @Override
     public void handle(long now) {
       try {
-        System.out.println(">>>>>> bot is active<<<<<<");
+        //System.out.println(">>>>>> Bot ACTEVE <<<<<<");
         Thread.sleep(0);
       } catch (InterruptedException e) {
       }

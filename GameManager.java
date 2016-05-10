@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,6 +30,8 @@ import javafx.application.HostServices;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 public class GameManager extends Group {
@@ -46,6 +49,11 @@ public class GameManager extends Group {
 
   private final Board board;
   private final GridOperator gridOperator;
+  private static Window primaryStage;
+  public static boolean ButtonBotActive = false;
+  static File gameReadFile;
+  static File gameSaveFile;
+  static File gameReadALLFile;
 
   public GameManager() {
     this(GridOperator.DEFAULT_GRID_SIZE);
@@ -54,9 +62,9 @@ public class GameManager extends Group {
   /**
    * GameManager is a Group containing a Board that holds a grid and the score a Map holds the
    * location of the tiles in the grid
-   *
+   * 
    * The purpose of the game is sum the value of the tiles up to 2048 points Based on the Javascript
-   *
+   * 
    * @param gridSize defines the size of the grid, default 4x4
    */
   public GameManager(int gridSize) {
@@ -97,9 +105,9 @@ public class GameManager extends Group {
     gameGrid.clear();
     locations.clear();
     gridOperator.traverseGrid((x, y) -> {
-      Location thislocation = new Location(x, y);
-      locations.add(thislocation);
-      gameGrid.put(thislocation, null);
+      Location thisloc = new Location(x, y);
+      locations.add(thisloc);
+      gameGrid.put(thisloc, null);
       return 0;
     });
   }
@@ -108,6 +116,7 @@ public class GameManager extends Group {
    * Starts the game by adding 1 or 2 tiles at random locations
    */
   private void startGame() {
+    //SaveFile();
     Tile tile0 = Tile.newRandomTile();
     List<Location> randomLocs = new ArrayList<>(locations);
     Collections.shuffle(randomLocs);
@@ -139,7 +148,7 @@ public class GameManager extends Group {
    * Moves the tiles according to given direction At any move, takes care of merge tiles, add a new
    * one and perform the required animations It updates the score and checks if the user won the
    * game or if the game is over
-   *
+   * 
    * @param direction is the selected direction to move the tiles
    */
   private void moveTiles(Direction direction) {
@@ -154,20 +163,20 @@ public class GameManager extends Group {
     ParallelTransition parallelTransition = new ParallelTransition();
     gridOperator.sortGrid(direction);
     final int tilesWereMoved = gridOperator.traverseGrid((x, y) -> {
-      Location thislocation = new Location(x, y);
-      Location farthestLocation = findFarthestLocation(thislocationation, direction); // farthest available
+      Location thisloc = new Location(x, y);
+      Location farthestLocation = findFarthestLocation(thisloc, direction); // farthest available
                                                                             // location
-      Optional<Tile> optionalTile = optionalTile(thislocation);
+      Optional<Tile> opTile = optionalTile(thisloc);
 
       AtomicInteger result = new AtomicInteger();
       Location nextLocation = farthestLocation.offset(direction); // calculates to a possible merge
-      optionalTile(nextLocation).filter(t -> t.isMergeable(optionalTile) && !t.isMerged())
+      optionalTile(nextLocation).filter(t -> t.isMergeable(opTile) && !t.isMerged())
           .ifPresent(t -> {
-            Tile tile = optionalTile.get();
+            Tile tile = opTile.get();
             t.merge(tile);
             t.toFront();
             gameGrid.put(nextLocation, t);
-            gameGrid.replace(thislocation, null);
+            gameGrid.replace(thisloc, null);
 
             parallelTransition.getChildren().add(animateExistingTile(tile, t.getLocation()));
             parallelTransition.getChildren().add(animateMergedTile(t));
@@ -185,12 +194,12 @@ public class GameManager extends Group {
             }
             result.set(1);
           });
-      if (result.get() == 0 && optionalTile.isPresent() && !farthestLocation.equals(thislocation)) {
-        Tile tile = optionalTile.get();
+      if (result.get() == 0 && opTile.isPresent() && !farthestLocation.equals(thisloc)) {
+        Tile tile = opTile.get();
         parallelTransition.getChildren().add(animateExistingTile(tile, farthestLocation));
 
         gameGrid.put(farthestLocation, tile);
-        gameGrid.replace(thislocation, null);
+        gameGrid.replace(thisloc, null);
 
         tile.setLocation(farthestLocation);
 
@@ -274,9 +283,9 @@ public class GameManager extends Group {
 
     Stream.of(Direction.UP, Direction.LEFT).parallel().forEach(direction -> {
       gridOperator.traverseGrid((x, y) -> {
-        Location thislocation = new Location(x, y);
-        optionalTile(thislocation).ifPresent(t -> {
-          if (t.isMergeable(optionalTile(thislocation.offset(direction)))) {
+        Location thisloc = new Location(x, y);
+        optionalTile(thisloc).ifPresent(t -> {
+          if (t.isMergeable(optionalTile(thisloc.offset(direction)))) {
             pairsOfMergeableTiles.incrementAndGet();
           }
         });
@@ -341,23 +350,23 @@ public class GameManager extends Group {
 
   /**
    * Animation that moves the tile from its previous location to a new location
-   *
+   * 
    * @param tile to be animated
    * @param newLocation new location of the tile
    * @return a timeline
    */
   private Timeline animateExistingTile(Tile tile, Location newLocation) {
     Timeline timeline = new Timeline();
-    KeyValue keyvalueX = new KeyValue(tile.layoutXProperty(),
+    KeyValue kvX = new KeyValue(tile.layoutXProperty(),
         newLocation.getLayoutX(Board.CELL_SIZE) - (tile.getMinHeight() / 2), Interpolator.EASE_OUT);
-    KeyValue keyvalueY = new KeyValue(tile.layoutYProperty(),
+    KeyValue kvY = new KeyValue(tile.layoutYProperty(),
         newLocation.getLayoutY(Board.CELL_SIZE) - (tile.getMinHeight() / 2), Interpolator.EASE_OUT);
 
-    KeyFrame keyframeX = new KeyFrame(ANIMATION_EXISTING_TILE, keyvalueX);
-    KeyFrame keyframeY = new KeyFrame(ANIMATION_EXISTING_TILE, keyvalueY);
+    KeyFrame kfX = new KeyFrame(ANIMATION_EXISTING_TILE, kvX);
+    KeyFrame kfY = new KeyFrame(ANIMATION_EXISTING_TILE, kvY);
 
-    timeline.getKeyFrames().add(keyframeX);
-    timeline.getKeyFrames().add(keyframeY);
+    timeline.getKeyFrames().add(kfX);
+    timeline.getKeyFrames().add(kfY);
 
     return timeline;
   }
@@ -365,7 +374,7 @@ public class GameManager extends Group {
   /**
    * Animation that creates a pop effect when two tiles merge by increasing the tile scale to 120%
    * at the middle, and then going back to 100%
-   *
+   * 
    * @param tile to be animated
    * @return a sequential transition
    */
@@ -385,7 +394,7 @@ public class GameManager extends Group {
 
   /**
    * Move the tiles according user input if overlay is not on
-   *
+   * 
    * @param direction
    */
   public void move(Direction direction) {
@@ -398,7 +407,7 @@ public class GameManager extends Group {
 
   /**
    * Set gameManager scale to adjust overall game size
-   *
+   * 
    * @param scale
    */
   public void setScale(double scale) {
@@ -408,7 +417,7 @@ public class GameManager extends Group {
 
   /**
    * Check if overlay covers the grid or not
-   *
+   * 
    * @return
    */
   public BooleanProperty isLayerOn() {
@@ -419,6 +428,7 @@ public class GameManager extends Group {
    * Pauses the game time, covers the grid
    */
   public void BotGame() {
+    ButtonBotActive = true;
     board.BotGame();
   }
 
@@ -470,31 +480,80 @@ public class GameManager extends Group {
   AnimationTimer AnimationTimerRiplay = new AnimationTimer() {
     @Override
     public void handle(long now) {
+      /*if (SessionManager.NumberRead <= Board.SaveData - 1) {
+        this.stop();
+        SessionManager.NumberRead = 1;
+      }*/
       try {
-        Thread.sleep(200);
+        if(ButtonBotActive == true){
+          Thread.sleep(10);
+        } else {
+          Thread.sleep(150);
+        }
       } catch (InterruptedException e) {
       }
-      System.out.printf("NumberRead: %d \n", SessionManager.NumberRead);
-      System.out.printf("NumberSave: %d \n", SessionManager.NumberSave);
+      //System.out.printf("NumberRead: %d \n", SessionManager.NumberRead);
       doRestoreSession();
+
       try {
-        Thread.sleep(200);
+        if(ButtonBotActive == true){
+          Thread.sleep(10);
+        } else {
+          Thread.sleep(150);
+        }
       } catch (InterruptedException e) {
       }
       if (SessionManager.EndFile == true) {
-        this.stop();
-        SessionManager.NumberRead = 0;
-        System.out.printf("NumberRead if: %d \n", SessionManager.NumberRead);
-      } else {
-        SessionManager.EndFile = false;
+        //SessionManager.NumberRead = 1;
+        AnimationTimerRiplay.stop();
       }
     }
   };
+  public void SaveFile() {
+  FileChooser fileChooser = new FileChooser();
+  fileChooser.setTitle("Save Saves on DISK!");
+  gameSaveFile = fileChooser.showSaveDialog(primaryStage);
+  }
+    
+  public void OpenFile() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open Saves on DISK!");
+    File file = fileChooser.showOpenDialog(primaryStage);
+    gameReadFile = new File(file.getName());
+    System.out.printf("gameReadFile: %s \n",gameReadFile);
+    ReplayRun();
+  }
+  
+  public static void OpenFileToScore() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open Saves on DISK!");
 
+    List<File> listFile = fileChooser.showOpenMultipleDialog(primaryStage);
+    if (listFile != null) {
+      for (File file : listFile) {        
+        gameReadALLFile = new File(file.getName());
+        Board.sortingSessionScore(gameReadALLFile);
+      }
+    }
+  }
+  
+  public static void OpenFileToStep() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open Saves on DISK!");
+
+    List<File> listFile = fileChooser.showOpenMultipleDialog(primaryStage);
+    if (listFile != null) {
+      for (File file : listFile) { 
+        gameReadALLFile = new File(file.getName());
+        Board.sortingSessionStep(gameReadALLFile);
+      }
+    }
+  }
+  
   public void ReplayRun() {
     AnimationTimerRiplay.start();
   }
-
+  
   /**
    * Save actual record to a properties file
    */
