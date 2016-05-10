@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "baa041b7_2872c17b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "there MUST be what you have done, not \"lab№\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_65d472bc",
         "filename": "Board.java",
         "patchSetId": 1
@@ -48,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_28f9a1c7",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 297,
+        "startChar": 50,
+        "endLine": 297,
+        "endChar": 75
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_65eb5279",
         "filename": "Board.java",
         "patchSetId": 1
@@ -64,6 +110,190 @@
         "startChar": 18,
         "endLine": 301,
         "endChar": 21
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_08025db4",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 27
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_6829e936",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "strange name. is this a method?",
+      "range": {
+        "startLine": 353,
+        "startChar": 8,
+        "endLine": 353,
+        "endChar": 22
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e815f9e4",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "omg\ndo something with this horrible part",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 69
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_a8da514a",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 470,
+        "startChar": 35,
+        "endLine": 470,
+        "endChar": 44
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_88db0d4f",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 476,
+        "startChar": 33,
+        "endLine": 476,
+        "endChar": 42
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_68e0c9fa",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 533,
+        "startChar": 19,
+        "endLine": 533,
+        "endChar": 22
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_28e76112",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 534,
+        "startChar": 19,
+        "endLine": 534,
+        "endChar": 22
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_08f01dc8",
+        "filename": "Board.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "camelCase",
+      "range": {
+        "startLine": 538,
+        "startChar": 4,
+        "endLine": 538,
+        "endChar": 12
       },
       "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
@@ -134,6 +364,144 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_a896d13c",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 169,
+        "startChar": 21,
+        "endLine": 169,
+        "endChar": 27
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c8911549",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 174,
+        "startChar": 21,
+        "endLine": 174,
+        "endChar": 22
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e8717945",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 181,
+        "startChar": 75,
+        "endLine": 181,
+        "endChar": 76
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_287c011e",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 197,
+        "startChar": 78,
+        "endLine": 197,
+        "endChar": 85
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_88978d39",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 360,
+        "startChar": 13,
+        "endLine": 360,
+        "endChar": 16
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_689c495d",
+        "filename": "GameManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 362,
+        "startChar": 13,
+        "endLine": 362,
+        "endChar": 16
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_6570f2dc",
         "filename": "GameManager.java",
         "patchSetId": 1
@@ -168,6 +536,75 @@
       "writtenOn": "2016-05-10T16:42:22Z",
       "side": 1,
       "message": "red",
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_08c7fd64",
+        "filename": "GamePane.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 84,
+        "startChar": 11,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e8c3b955",
+        "filename": "GamePane.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 12
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c8a355b1",
+        "filename": "Location.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "magic number",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 13
+      },
       "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -236,6 +673,121 @@
         "startChar": 8,
         "endLine": 95,
         "endChar": 10
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_68ae8999",
+        "filename": "QSort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "camelCase + bad name",
+      "range": {
+        "startLine": 161,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 13
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_2895213e",
+        "filename": "QSort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 173,
+        "startChar": 29,
+        "endLine": 173,
+        "endChar": 32
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e89a996d",
+        "filename": "QSort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "bad name",
+      "range": {
+        "startLine": 174,
+        "startChar": 25,
+        "endLine": 174,
+        "endChar": 29
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_68856905",
+        "filename": "SessionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "https://en.wikipedia.org/wiki/Naming_convention_%28programming%29#Java",
+      "range": {
+        "startLine": 34,
+        "startChar": 21,
+        "endLine": 34,
+        "endChar": 31
+      },
+      "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_487f4515",
+        "filename": "SessionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1007635
+      },
+      "writtenOn": "2016-05-10T17:37:08Z",
+      "side": 1,
+      "message": "https://en.wikipedia.org/wiki/Naming_convention_%28programming%29#Java",
+      "range": {
+        "startLine": 35,
+        "startChar": 20,
+        "endLine": 35,
+        "endChar": 30
       },
       "revId": "ca4949d70e02047250af0f5e49f14f0bdd8bfb2f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
