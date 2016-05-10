@@ -1,5 +1,6 @@
 package application;
 
+import application.QSort;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,7 +28,9 @@ public class GamePane extends StackPane {
     gameManager = new GameManager();
     gameManager.setToolBar(createToolBar());
     gameBounds = gameManager.getLayoutBounds();
+
     getChildren().add(gameManager);
+
     getStyleClass().addAll("game-root");
     ChangeListener<Number> resize = (ov, v, v1) -> {
       double scale = Math.min((getWidth() - MARGIN) / gameBounds.getWidth(),
@@ -38,6 +41,7 @@ public class GamePane extends StackPane {
     };
     widthProperty().addListener(resize);
     heightProperty().addListener(resize);
+
     addKeyHandler(this);
     setFocusTraversable(true);
     this.setOnMouseClicked(e -> requestFocus());
@@ -77,26 +81,26 @@ public class GamePane extends StackPane {
     HBox toolbar = new HBox();
     toolbar.setAlignment(Pos.CENTER);
     toolbar.setPadding(new Insets(10.0));
-    Button buttonItem1 = createButtonItem("mSave", "Save Session", t -> gameManager.saveSession());
-    Button buttonItem2 = createButtonItem("mRestore", "Replay Session", t -> gameManager.ReplayRun());
-    Button buttonItem3 = createButtonItem("mBot", "Actevated Bot", t -> gameManager.BotGame());
-    Button buttonItem4 = createButtonItem("mPause", "Pause Game", t -> gameManager.pauseGame());
-    Button buttonItem5 = createButtonItem("mReplay", "Try Again", t -> gameManager.tryAgain());
-    Button buttonItem6 = createButtonItem("mInfo", "About the Game", t -> gameManager.aboutGame());
-    toolbar.getChildren().setAll(buttonItem1, buttonItem2, buttonItem3, buttonItem4,
-	buttonItem5, buttonItem6);
-    Button buttonItem7 = createButtonItem("mQuit", "Quit the Game", t -> gameManager.quitGame());
-    toolbar.getChildren().add(buttonItem7);
+    Button save = createButtonItem("mSave", "Set path to file", t -> gameManager.SaveFile());
+    Button restore = createButtonItem("mRestore", "Open Path file", t -> gameManager.OpenFile());
+    Button bot = createButtonItem("mBot", "Actevated Bot", t -> gameManager.BotGame());
+    Button pause = createButtonItem("mPause", "Pause Game", t -> gameManager.pauseGame());
+    Button replay = createButtonItem("mReplay", "Try Again", t -> gameManager.tryAgain());
+    Button info = createButtonItem("mInfo", "About the Game", t -> gameManager.aboutGame());
+    Button sorting = createButtonItem("mSorting", "Sorting of the Game", t->QSort.StageSorting());
+    toolbar.getChildren().setAll(save, restore, bot, pause, replay, info, sorting);
+    Button exit = createButtonItem("mQuit", "Quit the Game", t->gameManager.quitGame());
+    toolbar.getChildren().add(exit);
     return toolbar;
   }
 
   private Button createButtonItem(String symbol, String text, EventHandler<ActionEvent> t) {
-    Button buttons = new Button();
-    buttons.setPrefSize(30, 30);
-    buttons.setId(symbol);
-    buttons.setOnAction(t);
-    buttons.setTooltip(new Tooltip(text));
-    return buttons;
+    Button newButton = new Button();
+    newButton.setPrefSize(30, 30);
+    newButton.setId(symbol);
+    newButton.setOnAction(t);
+    newButton.setTooltip(new Tooltip(text));
+    return newButton;
   }
 
   public GameManager getGameManager() {

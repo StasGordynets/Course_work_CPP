@@ -1,15 +1,17 @@
 package application;
 
+import java.io.File;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import application.GameBot;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.timeLine;
 import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -51,6 +53,12 @@ public class Board extends Group {
   private static final int GAP_HEIGHT = 50;
   private static final int TOOLBAR_HEIGHT = 80;
 
+  public static String Files[] = new String[1024];
+  public static int filesData[] = new int[1024];
+  public static int maxScore = 0;
+
+  public static int count = 0;
+
   private final IntegerProperty gameScoreProperty = new SimpleIntegerProperty(0);
   private final IntegerProperty gameBestProperty = new SimpleIntegerProperty(0);
   private final IntegerProperty gameMovePoints = new SimpleIntegerProperty(0);
@@ -72,9 +80,10 @@ public class Board extends Group {
   public static boolean GameOver = false;
   public static boolean Winner = false;
   public static boolean BotActive = false;
+  public static int saveData = 0;
 
   private LocalTime time;
-  private Timeline timer;
+  private timeLine timer;
   private final StringProperty clock = new SimpleStringProperty("00:00:00");
   private final DateTimeFormatter fmt =
       DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
@@ -105,8 +114,8 @@ public class Board extends Group {
   private final HBox hToolbar = new HBox();
   private HostServices hostServices;
 
-  private final Label labelTime = new Label();
-  private Timeline timerPause;
+  private final Label lblTime = new Label();
+  private timeLine timerPause;
 
   private final int gridWidth;
   private final GridOperator gridOperator;
@@ -168,7 +177,7 @@ public class Board extends Group {
     hTime.setAlignment(Pos.BOTTOM_RIGHT);
     lblTime.getStyleClass().addAll("game-label", "game-time");
     lblTime.textProperty().bind(clock);
-    timer = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+    timer = new timeLine(new KeyFrame(Duration.ZERO, e -> {
       clock.set(LocalTime.now().minusNanos(time.toNanoOfDay()).format(fmt));
     }), new KeyFrame(Duration.seconds(1)));
     timer.setCycleCount(Animation.INDEFINITE);
@@ -245,7 +254,7 @@ public class Board extends Group {
     }
   }
 
-  private void btnTryAgain() {
+  private void buttonTryAgain() {
     timerPause.stop();
     layerOnProperty.set(false);
     doResetGame();
@@ -257,7 +266,11 @@ public class Board extends Group {
     timerPause.stop();
     layerOnProperty.set(false);
     gameBotProperty.set(false);
-    Board.BotActive = false;
+    if (GameManager.ButtonBotActive == true) {
+      Board.BotActive = true;
+    } else {
+      Board.BotActive = false;
+    }
     gamePauseProperty.set(false);
     gameTryAgainProperty.set(false);
     gameSaveProperty.set(false);
@@ -265,8 +278,6 @@ public class Board extends Group {
     gameAboutProperty.set(false);
     gameQuitProperty.set(false);
     timer.play();
-    GameBot.AnimationTimer.stop();
-    BotActive = false;
   }
 
   private void quit() {
@@ -278,19 +289,19 @@ public class Board extends Group {
       new Overlay("You win!", "", bContinue, bTry, "game-overlay-won", "game-lblWon", true);
 
   private class Overlay implements ChangeListener<Boolean> {
-    private final Button btn1, btn2;
+    private final Button buttonFirst, buttonSecond;
     private final String message, warning;
-    private final String style1, style2;
+    private final String styleFirst, styleSecond;
     private final boolean pause;
 
-    public Overlay(String message, String warning, Button btn1, Button btn2, String style1,
-        String style2, boolean pause) {
+    public Overlay(String message, String warning, Button buttonFirst, Button buttonSecond,
+		String styleFirst, String styleSecond, boolean pause) {
       this.message = message;
       this.warning = warning;
-      this.btn1 = button1;
-      this.btn2 = button2;
-      this.style1 = style1;
-      this.style2 = style2;
+      this.buttonFirst = buttonFirst;
+      this.buttonSecond = buttonSecond;
+      this.styleFirst = styleFirst;
+      this.styleSecond = styleSecond;
       this.pause = pause;
     }
 
@@ -302,9 +313,9 @@ public class Board extends Group {
         if (pause) {
           timerPause.play();
         }
-        overlay.getStyleClass().setAll("game-overlay", style1);
+        overlay.getStyleClass().setAll("game-overlay", styleFirst);
         lOvrText.setText(message);
-        lOvrText.getStyleClass().setAll("game-label", style2);
+        lOvrText.getStyleClass().setAll("game-label", styleSecond);
         lOvrSubText.setText(warning);
         lOvrSubText.getStyleClass().setAll("game-label", "game-lblWarning");
         txtOverlay.getChildren().setAll(lOvrText, lOvrSubText);
@@ -335,11 +346,11 @@ public class Board extends Group {
     buttonsOverlay.setSpacing(10);
 
     bTry.getStyleClass().add("game-button");
-    bTry.setOnTouchPressed(e -> btnTryAgain());
-    bTry.setOnAction(e -> btnTryAgain());
+    bTry.setOnTouchPressed(e -> buttonTryAgain());
+    bTry.setOnAction(e -> buttonTryAgain());
     bTry.setOnKeyPressed(e -> {
       if (e.getCode().equals(KeyCode.ENTER) || e.getCode().equals(KeyCode.SPACE)) {
-        btnTryAgain();
+        buttonTryAgain();
       }
     });
 
@@ -389,7 +400,7 @@ public class Board extends Group {
     });
 
     timerPause =
-        new Timeline(new KeyFrame(Duration.seconds(1), e -> time = time.plusNanos(1_000_000_000)));
+        new timeLine(new KeyFrame(Duration.seconds(1), e -> time = time.plusNanos(1_000_000_000)));
     timerPause.setCycleCount(Animation.INDEFINITE);
 
     gameWonProperty.addListener(wonListener);
@@ -417,33 +428,35 @@ public class Board extends Group {
         flow.setPrefSize(gridWidth, gridWidth);
         flow.setMaxSize(gridWidth, gridWidth);
         flow.setPrefSize(BASELINE_OFFSET_SAME_AS_HEIGHT, BASELINE_OFFSET_SAME_AS_HEIGHT);
-        Text t00 = new Text("2048");
-        t00.getStyleClass().setAll("game-label", "game-lblAbout");
-        Text t01 = new Text("on JavaFX");
-        t01.getStyleClass().setAll("game-label", "game-lblAbout2");
-        Text t02 = new Text(" Game\n");
-        t02.getStyleClass().setAll("game-label", "game-lblAbout");
-        Text t1 = new Text("JavaFX game - remake\n\n");
-        t1.getStyleClass().setAll("game-label", "game-lblAboutSub");
-        Text t2 = new Text("Powered by ");
-        t2.getStyleClass().setAll("game-label", "game-lblAboutSub");
-        Text t3 = new Text("Stanislav");
-        t3.getStyleClass().setAll("game-label", "game-lblAboutSub");
-        Text t4 = new Text(" Labs Project \n\n");
-        t4.getStyleClass().setAll("game-label", "game-lblAboutSub");
-        Text t5 = new Text("\u00A9 ");
-        t5.getStyleClass().setAll("game-label", "game-lblAboutSub");
-        Text t6 = new Text("Stanislav");
-        t6.getStyleClass().setAll("game-label", "game-lblAboutSub");
-        Text t7 = new Text(" & ");
-        t7.getStyleClass().setAll("game-label", "game-lblAboutSub");
-        Text t8 = new Text("450503");
-        t8.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text title = new Text("2048");
+        title.getStyleClass().setAll("game-label", "game-lblAbout");
+        Text subtitle = new Text("on JavaFX");
+        subtitle.getStyleClass().setAll("game-label", "game-lblAbout2");
+        Text name = new Text(" Game\n");
+        name.getStyleClass().setAll("game-label", "game-lblAbout");
+        Text stringOne = new Text("JavaFX game - remake\n\n");
+        stringOne.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text stringTwo = new Text("Powered by ");
+        stringTwo.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text stringThree = new Text("Stanislav");
+        stringThree.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text stringFour = new Text(" Labs Project \n\n");
+        stringFour.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text stringFive = new Text("\u00A9 ");
+        stringFive.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text stringSix = new Text("Stanislav");
+        stringSix.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text stringSeven = new Text(" & ");
+        stringSeven.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text stringEight = new Text("450503");
+        stringEight.getStyleClass().setAll("game-label", "game-lblAboutSub");
 
-        Text t31 = new Text(" Version " + Game2048.VERSION + "\n\n");
-        t31.getStyleClass().setAll("game-label", "game-lblAboutSub");
+        Text version = new Text(" Version " + Game2048.VERSION + "\n\n");
+        version.getStyleClass().setAll("game-label", "game-lblAboutSub");
 
-        flow.getChildren().setAll(t00, t01, t02, t1, t2, t3, t4, t5, t6, t7, t8);
+        flow.getChildren().setAll(title, subtitle, name, stringOne, stringTwo,
+			stringThree, stringFour, stringFive, stringSix, stringSeven,
+				stringEight,version);
         txtOverlay.getChildren().setAll(flow);
         buttonsOverlay.getChildren().setAll(bContinue);
         this.getChildren().removeAll(overlay, buttonsOverlay);
@@ -456,18 +469,18 @@ public class Board extends Group {
 
     restoreRecord();
 
-    gameScoreProperty.addListener((ov, i, i1) -> {
-      if (i1.intValue() > gameBestProperty.get()) {
-        gameBestProperty.set(i1.intValue());
+    gameScoreProperty.addListener((observableValue, init, initFirst) -> {
+      if (initFirst.intValue() > gameBestProperty.get()) {
+        gameBestProperty.set(initFirst.intValue());
       }
     });
 
-    layerOnProperty.addListener((ov, b, b1) -> {
-      if (!b1) {
+    layerOnProperty.addListener((observableValue, boolean, booleanFirst) -> {
+      if (!booleanFirst) {
         getChildren().removeAll(overlay, buttonsOverlay);
         // Keep the focus on the game when the layer is removed:
         getParent().requestFocus();
-      } else if (b1) {
+      } else if (booleanFirst) {
         // Set focus on the first button
         buttonsOverlay.getChildren().get(0).requestFocus();
       }
@@ -512,21 +525,21 @@ public class Board extends Group {
       return;
     }
 
-    final Timeline timeline = new Timeline();
+    final timeLine timeLine = new timeLine();
     lblPoints.setText("+" + gameMovePoints.getValue().toString());
     lblPoints.setOpacity(1);
     double posX = vScore.localToScene(vScore.getWidth() / 2d, 0).getX();
     lblPoints.setTranslateX(0);
     lblPoints.setTranslateX(lblPoints.sceneToLocal(posX, 0).getX() - lblPoints.getWidth() / 2d);
     lblPoints.setLayoutY(20);
-    final KeyValue kvO = new KeyValue(lblPoints.opacityProperty(), 0);
-    final KeyValue kvY = new KeyValue(lblPoints.layoutYProperty(), 100);
+    final KeyValue keyValueX = new KeyValue(lblPoints.opacityProperty(), 0);
+    final KeyValue keyValueY = new KeyValue(lblPoints.layoutYProperty(), 100);
     Duration animationDuration = Duration.millis(600);
-    final KeyFrame kfO = new KeyFrame(animationDuration, kvO);
-    final KeyFrame kfY = new KeyFrame(animationDuration, kvY);
-    timeline.getKeyFrames().add(kfO);
-    timeline.getKeyFrames().add(kfY);
-    timeline.play();
+    final KeyFrame keyFrameX = new KeyFrame(animationDuration, keyValueX);
+    final KeyFrame keyFrameY = new KeyFrame(animationDuration, keyValueY);
+    timeLine.getKeyFrames().add(keyFrameX);
+    timeLine.getKeyFrames().add(keyFrameY);
+    timeLine.play();
   }
 
   public void addTile(Tile tile) {
@@ -649,7 +662,8 @@ public class Board extends Group {
   public void saveSession(Map<Location, Tile> gameGrid) {
     saveGame.set(false);
     sessionManager.saveSession(gameGrid, gameScoreProperty.getValue(),
-        LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay());
+        LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay(),
+        SessionManager.NumberSave + 1);
     keepGoing();
   }
 
@@ -668,8 +682,10 @@ public class Board extends Group {
     restoreGame.set(false);
     doClearGame();
     timer.stop();
+    // SaveData = sessionManager.restoreSave();
+    // System.out.printf("-------- SaveData ----->: %d \n", SaveData);
     StringProperty sTime = new SimpleStringProperty("");
-    int score = sessionManager.restoreSession(gameGrid, sTime, sessionManager.NumberSave);
+    int score = sessionManager.restoreSession(gameGrid, sTime);
     if (score >= 0) {
       gameScoreProperty.set(score);
       // check tiles>=2048
@@ -687,8 +703,41 @@ public class Board extends Group {
       timer.play();
       return true;
     }
-    // not session found, restart again
     doResetGame();
+    return false;
+  }
+
+  public static boolean sortingSessionScore(File gameReadAllFile) {
+    int score = SessionManager.SortingFileScore(gameReadAllFile);
+
+    if (filesData[0] == 0) {
+      filesData[count] = score;
+      files[count] = gameReadAllFile.getName();
+    }
+
+    if (score > filesData[count]) {
+      filesData[count] = score;
+      files[count] = gameReadAllFile.getName();
+    }
+    count++;
+
+    return false;
+  }
+
+  public static boolean sortingSessionStep(File gameReadAllFile) {
+    int NumberOfSave = SessionManager.SortingFileStep(gameReadAllFile);
+
+    if (filesData[0] == 0) {
+      filesData[count] = NumberOfSave;
+      files[count] = gameReadAllFile.getName();
+    }
+
+    if (NumberOfSave > filesData[count]) {
+      filesData[count] = NumberOfSave;
+      files[count] = gameReadAllFile.getName();
+    }
+    count++;
+
     return false;
   }
 

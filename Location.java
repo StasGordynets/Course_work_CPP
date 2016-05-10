@@ -28,11 +28,10 @@ public class Location {
 
   @Override
   public int hashCode() {
-    final int HASH = 7; 
-	final int HASHNUMBER = 97;
-    HASH = HASHNUMBER * HASH + this.x;
-    HASH = HASHNUMBER * HASH + this.y;
-    return HASH;
+    int hash = 7;
+    hash = hash + this.x;
+    hash = hash + this.y;
+    return hash;
   }
 
   @Override
